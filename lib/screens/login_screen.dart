@@ -25,126 +25,128 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-            const Text('Login',style: TextStyle(
-               fontSize: 30,
-               color: Colors.black,
-              fontWeight: FontWeight.bold
-                ),),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                label:Text('Email',style: TextStyle(color: PrimaryColor),),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: PrimaryColor)
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: PrimaryColor)
-                ),
-               // border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email,color: PrimaryColor,)
-
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+              const Text('Login',style: TextStyle(
+                 fontSize: 30,
+                 color: Colors.black,
+                fontWeight: FontWeight.bold
+                  ),),
+              const SizedBox(
+                height: 20,
               ),
-              cursorColor: PrimaryColor,
-              onChanged: (value){
-                email=value;
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(
-                  label:Text('Password',style: TextStyle(color: PrimaryColor),),
+              TextFormField(
+                decoration: const InputDecoration(
+                  label:Text('Email',style: TextStyle(color: PrimaryColor),),
                   enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: PrimaryColor)
+                    borderSide: BorderSide(color: PrimaryColor)
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: PrimaryColor)
                   ),
-                  // border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock,color: PrimaryColor,),
-                  suffixIcon: Icon(Icons.remove_red_eye,color: PrimaryColor,),
+                 // border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email,color: PrimaryColor,)
 
+                ),
+                cursorColor: PrimaryColor,
+                onChanged: (value){
+                  email=value;
+                },
               ),
-              cursorColor: PrimaryColor,
-              onChanged: (value){
-                password=value;
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              alignment: Alignment.topRight,
-              child: const Text('Forget password?',style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-
-              ),),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              width: double.infinity,
-              height:50,
-              color: PrimaryColor,
-              child: TextButton(
-                  onPressed: ()async{
-
-                    try{
-                      final user = await _auth.signInWithEmailAndPassword(
-                          email: email,
-                          password: password);
-
-                      if(user!=null){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                      }
-                    }catch(error){
-                      print(error);
-                    }
-
-
-
-
-                  },
-                  child: const Text('Login',style: TextStyle(
-                    color: Colors.white
-                  ),),
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: const Text('Dont have ana account ?',style: TextStyle(
+              TextFormField(
+                obscureText: true,
+                decoration: const InputDecoration(
+                    label:Text('Password',style: TextStyle(color: PrimaryColor),),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: PrimaryColor)
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: PrimaryColor)
+                    ),
+                    // border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock,color: PrimaryColor,),
+                    suffixIcon: Icon(Icons.remove_red_eye,color: PrimaryColor,),
+
+                ),
+                cursorColor: PrimaryColor,
+                onChanged: (value){
+                  password=value;
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                alignment: Alignment.topRight,
+                child: const Text('Forget password?',style: TextStyle(
                     fontSize: 15,
                     color: Colors.black,
 
-                  ),),
-                ),
-                TextButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                ),),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: double.infinity,
+                height:50,
+                color: PrimaryColor,
+                child: TextButton(
+                    onPressed: ()async{
+
+                      try{
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email,
+                            password: password);
+
+                        if(user!=null){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                        }
+                      }catch(error){
+                        print(error);
+                      }
+
+
+
+
                     },
-                    child: const Text('Register now',style: TextStyle(
-                      color: PrimaryColor
+                    child: const Text('Login',style: TextStyle(
+                      color: Colors.white
                     ),),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: const Text('Dont have ana account ?',style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
 
-          ],
+                    ),),
+                  ),
+                  TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                      },
+                      child: const Text('Register now',style: TextStyle(
+                        color: PrimaryColor
+                      ),),
+                  ),
+                ],
+              ),
+
+            ],
+          ),
         ),
       ),
     );

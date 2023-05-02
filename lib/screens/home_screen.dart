@@ -42,64 +42,88 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text('psychology app',style: TextStyle(color: Colors.deepPurpleAccent),),
+        actions: const [
+          Icon(Icons.add_alert,color: Colors.deepPurpleAccent,),
+        ],
+        leading: Row(
+          children: const [
+            Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,),
+            SizedBox(
+              width: 5,
+            ),
+            Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,)
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
+
+                    Container(
+                      width: 170,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.tealAccent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(child: Text('ما هو شعورك اليوم ؟')),
+
+                    ),
+                    Spacer(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: const [
-                        Text('Welcome , Abdo',style: TextStyle(color: Colors.grey,fontSize: 20),),
+                        Text(', اهلا بك',style: TextStyle(color: Colors.grey,fontSize: 20),),
+                        Text('عبدالهادي',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+
                         SizedBox(
                           height: 5,
                         ),
-                        Text('What do you feel ?',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 25),),
                       ],
                     ),
-                    Spacer(),
-                    const CircleAvatar(
-                      backgroundImage: AssetImage('images/logo.jpg'),
-                      radius: 25,
-                    ),
+
                   ],
                 ) ,
                const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 Container(
-                  alignment: Alignment.centerLeft,
                   width:double.infinity,
-                  height: 40,
+                  height: 100,
                   decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  child:Row(
-                    children: const [
-                      SizedBox(
-                        width: 10,
+
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.grey,
+                        blurRadius: 4,
+                        offset: Offset(4, 8)
+
                       ),
-                      Icon(Icons.search),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text('Search here '),
-                    ],
+
+                    ]
                   ),
+                  child:Image.asset('images/help.png',fit: BoxFit.fill,),
                 ),
                 const SizedBox(
                   height: 40,
                 ),
                 Row(
-                  children:  [
-                    const Text('Find your doctor ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
-                    Spacer(),
-                    TextButton(onPressed: (){}, child: const Text('See All',style: TextStyle(color: PrimaryColor),))
-
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children:  const [
+                     Text(' ! ابدا رحلتك الان',style: TextStyle(color: PrimaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
                   ],
                 ),
                 const SizedBox(
@@ -110,88 +134,142 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       Stack(
-                        alignment: AlignmentDirectional.bottomStart,
+                        alignment: AlignmentDirectional.topStart,
                         children: [
+
                           Container(
                             width: 150,
                             height: 200,
 
                             decoration: BoxDecoration(
-                              color: Colors.grey[300],
+                              color: Colors.teal,
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Image(image: AssetImage('images/ddd.png')),
+                            child: const Padding(
+                              padding:  EdgeInsets.only(top: 70),
+                              child: Image(image: AssetImage('images/3.png')),
+                            ),
 
 
 
                           ),
-                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: const [
-                                Text('DR.Ahmed ,35',style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white
+                                Text('مقياس تقدير الذات',style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white
                                 ),),
-                                Text('child psychologist ',style: TextStyle(
+                                Text('10 اساله',style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.white
                                 ),),
                               ],
                             ),
-                          )
+                          ),
+
                         ],
                       ),
 
                       const SizedBox(
                         width: 20,
                       ),
-                      Container(
-                        width: 150,
-                        height: 200,
+                      Stack(
+                        alignment: AlignmentDirectional.topStart,
+                        children: [
 
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Image(image: AssetImage('images/dd2.png'),),
+                          Container(
+                            width: 150,
+                            height: 200,
+
+                            decoration: BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Padding(
+                              padding:  EdgeInsets.only(top: 40),
+                              child: Image(image: AssetImage('images/1.png')),
+                            ),
 
 
 
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const [
+                                Text('مقياس الرضا الزاجي',style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white
+                                ),),
+                                Text('10 اساله',style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white
+                                ),),
+                              ],
+                            ),
+                          ),
+
+                        ],
                       ),
                       const SizedBox(
                         width: 20,
                       ),
-                      Container(
-                        width: 150,
-                        height: 200,
+                      Stack(
+                        alignment: AlignmentDirectional.topStart,
+                        children: [
 
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Image(image: AssetImage('images/dd5.png'),),
+                          Container(
+                            width: 150,
+                            height: 200,
+
+                            decoration: BoxDecoration(
+                              color: Colors.pinkAccent,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Padding(
+                              padding:  EdgeInsets.only(top: 40),
+                              child: Image(image: AssetImage('images/2.png')),
+                            ),
 
 
 
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const [
+                                Text('مقياس الرضا الزاجي',style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white
+                                ),),
+                                Text('10 اساله',style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white
+                                ),),
+                              ],
+                            ),
+                          ),
+
+                        ],
                       ),
                       const SizedBox(
                         width: 20,
                       ),
-                      Container(
-                        width: 150,
-                        height: 200,
-
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Image(image: AssetImage('images/dd3.png'),),
-
-
-
+                      customItem(
+                        image: '5',
+                        title: 'مقياس الاكتاب',
+                        number: 15,
                       ),
                       const SizedBox(
                         width: 20,
@@ -230,7 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Column(
                         children: [
                           Container(
-                              child: Image.asset('images/g.jpg'),
+                              child: Image.asset('images/1.png'),
                             width: 100,
                             height: 100,
                           ),
@@ -311,6 +389,54 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
+    );
+  }
+  Widget customItem({
+  required String title,
+    required String image,
+    required int number,
+
+}){
+    return Stack(
+      alignment: AlignmentDirectional.topStart,
+      children: [
+
+        Container(
+          width: 150,
+          height: 200,
+
+          decoration: BoxDecoration(
+            color: Colors.orange,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Padding(
+            padding:  const EdgeInsets.only(top: 50),
+            child: Image(image: AssetImage('images/$image.png')),
+          ),
+
+
+
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children:  [
+              Text('$title',style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+              ),),
+              Text('$number',style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white
+              ),),
+            ],
+          ),
+        ),
+
+      ],
     );
   }
 }

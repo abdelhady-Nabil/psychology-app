@@ -19,9 +19,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.deepPurpleAccent,
+        fontFamily: 'cairo'
       ),
       debugShowCheckedModeBanner: false,
-      home: StartScreen(),
+      home: const Directionality(
+        textDirection: TextDirection.ltr,
+          child: HomeScreen()
+      ),
     );
   }
 }
