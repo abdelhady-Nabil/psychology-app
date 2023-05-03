@@ -4,6 +4,9 @@ import 'package:psychology_app/screens/login_screen.dart';
 import 'package:psychology_app/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:psychology_app/screens/start_screen.dart';
+import 'package:psychology_app/screens/test_screen.dart';
+import '../widget/custom_item.dart';
+
 
 void main()async{
   WidgetsFlutterBinding.ensureInitialized(); //access binding firebase
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'cairo'
       ),
       debugShowCheckedModeBanner: false,
-      home: const Directionality(
+      home:  const Directionality(
         textDirection: TextDirection.ltr,
           child: HomeScreen()
       ),

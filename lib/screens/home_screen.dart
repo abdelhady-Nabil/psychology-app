@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:psychology_app/screens/test_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
+
+import '../model/question_model.dart';
+import '../widget/custom_item.dart';
+import '../widget/custom_text.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,6 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   late User signedInUser;
+  List <QuestionModel> questionList = getQuestion();
+
 
   void getCurrentUser(){
 
@@ -133,158 +140,73 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      Stack(
-                        alignment: AlignmentDirectional.topStart,
-                        children: [
-
-                          Container(
-                            width: 150,
-                            height: 200,
-
-                            decoration: BoxDecoration(
-                              color: Colors.teal,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Padding(
-                              padding:  EdgeInsets.only(top: 70),
-                              child: Image(image: AssetImage('images/3.png')),
-                            ),
-
-
-
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                Text('مقياس تقدير الذات',style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white
-                                ),),
-                                Text('10 اساله',style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white
-                                ),),
-                              ],
-                            ),
-                          ),
-
-                        ],
+                      CustomItem(
+                        title:'مقياس تقدير الذات',
+                        image: 'images/3.png',
+                        number: questionList.length.toInt(),
+                        color: Colors.teal,
+                        function: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    title: 'مقياس تقدير الذات',
+                                  )));
+                        },
                       ),
+                      CustomItem(
+                        title:'مقياس الرضا الزواجي',
+                        image: 'images/1.png',
+                        number: 10,
+                        color: Colors.pink,
+                        function:(){
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    title: 'مقياس الرضا الزواجي',
+                                  )));
+                        },
 
-                      const SizedBox(
-                        width: 20,
                       ),
-                      Stack(
-                        alignment: AlignmentDirectional.topStart,
-                        children: [
+                      CustomItem(
+                        title:'مقياس الاكتاب الحاد',
+                        image: 'images/5.png',
+                        number: 10,
+                        color: Colors.deepPurpleAccent,
+                        function: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    title: 'مقياس الاكتاب الحاد',
+                                  )));
+                        },
 
-                          Container(
-                            width: 150,
-                            height: 200,
-
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Padding(
-                              padding:  EdgeInsets.only(top: 40),
-                              child: Image(image: AssetImage('images/1.png')),
-                            ),
-
-
-
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                Text('مقياس الرضا الزاجي',style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white
-                                ),),
-                                Text('10 اساله',style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white
-                                ),),
-                              ],
-                            ),
-                          ),
-
-                        ],
                       ),
-                      const SizedBox(
-                        width: 20,
+                      CustomItem(
+                        title:'مقياس القلق الدائم',
+                        image: 'images/4.png',
+                        number: 10,
+                        color: Colors.deepOrange,
+                        function: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    title: 'مقياس القلق الدائم',
+                                  )));
+                        },
+
                       ),
-                      Stack(
-                        alignment: AlignmentDirectional.topStart,
-                        children: [
-
-                          Container(
-                            width: 150,
-                            height: 200,
-
-                            decoration: BoxDecoration(
-                              color: Colors.pinkAccent,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Padding(
-                              padding:  EdgeInsets.only(top: 40),
-                              child: Image(image: AssetImage('images/2.png')),
-                            ),
-
-
-
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
-                                Text('مقياس الرضا الزاجي',style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white
-                                ),),
-                                Text('10 اساله',style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white
-                                ),),
-                              ],
-                            ),
-                          ),
-
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      customItem(
-                        image: '5',
-                        title: 'مقياس الاكتاب',
-                        number: 15,
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        width: 150,
-                        height: 200,
-
-                        decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Image(image: AssetImage('images/dd4.png'),),
-
-
+                      CustomItem(
+                        title:'مقياس الوسواس ',
+                        image: 'images/2.png',
+                        number: 10,
+                        color: Colors.indigo,
+                        function: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    title: 'مقياس الوسواس',
+                                  )));
+                        },
 
                       ),
                     ],
@@ -295,10 +217,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Row(
                   children:  [
-                    const Text('Categories ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 20),),
-                    Spacer(),
-                    TextButton(onPressed: (){}, child: const Text('See All',style: TextStyle(color: PrimaryColor),))
+                    CustomText(
+                      text: 'عرض الكل',
+                      fontSize: 10,
+                      color: Colors.grey,
 
+                    ),
+                    Spacer(),
+                    CustomText(
+                      text: 'مجموعات الدعم',
+                      fontSize: 15,
+                      color:PrimaryColor,
+                    ),
                   ],
                 ),
                 SingleChildScrollView(
@@ -391,52 +321,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  Widget customItem({
-  required String title,
-    required String image,
-    required int number,
 
-}){
-    return Stack(
-      alignment: AlignmentDirectional.topStart,
-      children: [
-
-        Container(
-          width: 150,
-          height: 200,
-
-          decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding:  const EdgeInsets.only(top: 50),
-            child: Image(image: AssetImage('images/$image.png')),
-          ),
-
-
-
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children:  [
-              Text('$title',style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-              ),),
-              Text('$number',style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.white
-              ),),
-            ],
-          ),
-        ),
-
-      ],
-    );
-  }
 }
