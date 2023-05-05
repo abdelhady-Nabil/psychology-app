@@ -3,9 +3,14 @@ import 'package:psychology_app/widget/constant.dart';
 import '../model/question_model.dart';
 class TestScreen extends StatefulWidget {
   final String title;
+   final int start;
+  final int end;
 
   TestScreen({
-    required this.title
+    required this.title,
+     required this.start,
+    required this.end
+
 });
 
   @override
@@ -15,9 +20,11 @@ class TestScreen extends StatefulWidget {
 class _TestScreenState extends State<TestScreen> {
 
   List <QuestionModel> questionList = getQuestion();
-  int currentQuestionIndex = 0;
+  late int currentQuestionIndex = widget.start;
+  late int endQuestionIndex = widget.end;
   int score = 0;
   Answer? selectedAnswer;
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +62,7 @@ class _TestScreenState extends State<TestScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children:  [
-                  Text('السؤال ${currentQuestionIndex+1} / ${questionList.length.toString()}',style: const TextStyle(
+                  Text('السؤال ${currentQuestionIndex+1} / ${endQuestionIndex}',style: const TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                     fontWeight: FontWeight.bold
@@ -130,7 +137,7 @@ class _TestScreenState extends State<TestScreen> {
   }
   _nextButton() {
     bool isLastQuestion = false;
-    if (currentQuestionIndex == questionList.length - 1) {
+    if (currentQuestionIndex == endQuestionIndex-1) {
       isLastQuestion = true;
     }
 
@@ -138,7 +145,7 @@ class _TestScreenState extends State<TestScreen> {
       width: MediaQuery.of(context).size.width * 0.5,
       height: 48,
       child: ElevatedButton(
-        child: Text(isLastQuestion ? "Submit" : "Next"),
+        child: Text(isLastQuestion ? "تاكيد" : "التالي"),
         style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),
           primary: PrimaryColor,

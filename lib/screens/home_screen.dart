@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:psychology_app/screens/chat_screen.dart';
+import 'package:psychology_app/screens/measure_screen.dart';
+import 'package:psychology_app/screens/more_screen.dart';
 import 'package:psychology_app/screens/test_screen.dart';
+import 'package:psychology_app/screens/time_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 
 import '../model/question_model.dart';
@@ -18,6 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   late User signedInUser;
   List <QuestionModel> questionList = getQuestion();
+  int index = 4;
+  List<Widget>screens=[
+    ChatScreen(),
+    TimeScreen(),
+    MeasureScreen(),
+    MoreScreen(),
+  ];
 
 
   void getCurrentUser(){
@@ -49,24 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text('psychology app',style: TextStyle(color: Colors.deepPurpleAccent),),
-        actions: const [
-          Icon(Icons.add_alert,color: Colors.deepPurpleAccent,),
-        ],
-        leading: Row(
-          children: const [
-            Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,),
-            SizedBox(
-              width: 5,
-            ),
-            Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,)
-          ],
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SafeArea(
@@ -74,6 +67,28 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:  [
+                    Row(
+                      children: const [
+                        Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,),
+                      ],
+                    ),
+                    CustomText(
+                        text: 'psychology app',
+                        fontSize: 20,
+                      color: PrimaryColor,
+                    ),
+                    const Icon(Icons.add_alert,color: Colors.deepPurpleAccent,),
+
+                  ],
+                ),
                 Row(
                   children: [
 
@@ -129,8 +144,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children:  const [
-                     Text(' ! ابدا رحلتك الان',style: TextStyle(color: PrimaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
+                  children:  [
+                    const Icon(Icons.arrow_downward_outlined,size: 20),
+                    CustomText(
+                      text: '(و اختبر نفسك )',
+                      fontSize: 15,
+                      color: Colors.black,
+
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                     const Text(' ! ابدا رحلتك الان',style: TextStyle(color: PrimaryColor,fontWeight: FontWeight.bold,fontSize: 20),),
+
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children:  [
+                    TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MeasureScreen()));
+                      },
+                      child: CustomText(
+                        text: 'عرض الكل',
+                        fontSize: 12,
+                        color: Colors.grey,
+
+                      ),
+                    ),
+                    Spacer(),
+                    CustomText(
+                      text: 'مقاييس التشخيص',
+                      fontSize: 15,
+                      color:PrimaryColor,
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -143,12 +193,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       CustomItem(
                         title:'مقياس تقدير الذات',
                         image: 'images/3.png',
-                        number: questionList.length.toInt(),
+                        number: 8,
                         color: Colors.teal,
                         function: (){
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context)=>TestScreen(
+                                    start: 0,
+                                    end: 8,
                                     title: 'مقياس تقدير الذات',
                                   )));
                         },
@@ -156,12 +208,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       CustomItem(
                         title:'مقياس الرضا الزواجي',
                         image: 'images/1.png',
-                        number: 10,
+                        number: 9,
                         color: Colors.pink,
                         function:(){
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context)=>TestScreen(
+                                    start: 8,
+                                    end: 16,
                                     title: 'مقياس الرضا الزواجي',
                                   )));
                         },
@@ -176,6 +230,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context)=>TestScreen(
+                                    start: 11,
+                                    end: 15,
                                     title: 'مقياس الاكتاب الحاد',
                                   )));
                         },
@@ -190,6 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context)=>TestScreen(
+                                    start: 16,
+                                    end: 20,
                                     title: 'مقياس القلق الدائم',
                                   )));
                         },
@@ -204,6 +262,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(context,
                               MaterialPageRoute(
                                   builder: (context)=>TestScreen(
+                                    start: 20,
+                                    end: 25,
                                     title: 'مقياس الوسواس',
                                   )));
                         },
@@ -292,33 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: PrimaryColor,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'home'
 
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.date_range_sharp),
-            label: 'date'
-
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_alert_outlined),
-            label: 'alert'
-
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'me'
-
-          )
-        ],
-      ),
     );
   }
 
