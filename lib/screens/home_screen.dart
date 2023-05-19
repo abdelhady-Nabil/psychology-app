@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:psychology_app/screens/chat_screen.dart';
-import 'package:psychology_app/screens/measure_screen.dart';
+import 'package:psychology_app/screens/measure/measure_screen.dart';
 import 'package:psychology_app/screens/more_screen.dart';
-import 'package:psychology_app/screens/test_screen.dart';
+import 'package:psychology_app/screens/measure/test_screen.dart';
 import 'package:psychology_app/screens/time_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 

@@ -4,7 +4,7 @@ import 'package:psychology_app/screens/time_screen.dart';
 
 import '../widget/constant.dart';
 import 'chat_screen.dart';
-import 'measure_screen.dart';
+import 'measure/measure_screen.dart';
 import 'more_screen.dart';
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:psychology_app/screens/login_screen.dart';
+import 'package:psychology_app/screens/auth/login_screen.dart';
 
-import '../widget/constant.dart';
-import 'home_screen.dart';
+import '../../widget/constant.dart';
+import '../home_screen.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 

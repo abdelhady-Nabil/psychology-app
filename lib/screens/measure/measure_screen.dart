@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:psychology_app/screens/home_screen.dart';
-import 'package:psychology_app/screens/test_screen.dart';
+import 'package:psychology_app/screens/measure/test_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 import 'package:psychology_app/widget/custom_item.dart';
 
-import '../model/question_model.dart';
-import '../widget/custom_item_list.dart';
-import '../widget/custom_text.dart';
+import '../../model/question_model.dart';
+import '../../widget/custom_item_list.dart';
+import '../../widget/custom_text.dart';
 class MeasureScreen extends StatelessWidget {
 
   List <QuestionModel> questionList = getQuestion();

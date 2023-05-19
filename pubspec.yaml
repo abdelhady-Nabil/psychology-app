@@ -38,6 +38,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.10.0
   firebase_auth: ^4.4.2
+  modal_progress_hud_nsn: ^0.3.0
+  cloud_firestore: ^4.7.1
+
+
+#  cloud_firestore: ^4.7.10
+
 
 
 

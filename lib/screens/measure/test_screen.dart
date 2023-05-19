@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:psychology_app/widget/constant.dart';
-import '../model/question_model.dart';
+import '../../model/question_model.dart';
 class TestScreen extends StatefulWidget {
   final String title;
    final int start;
@@ -39,26 +39,39 @@ class _TestScreenState extends State<TestScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-
             children:  [
-              Row(
-                children: [
-                  IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                    onPressed: (){
-                        Navigator.pop(context);
-                    },
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Row(
+
+                  children: [
+
+
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Text(widget.title,style: const TextStyle(
+                            fontSize: 20,
+                            color: PrimaryColor
+                        ),),
+
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_forward),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
-                Center(
-                child:  Text(widget.title,style: const TextStyle(
-                    fontSize: 20,
-                    color: PrimaryColor
-                ),),
-              ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children:  [

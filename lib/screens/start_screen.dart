@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:psychology_app/screens/login_screen.dart';
+import 'package:psychology_app/screens/auth/login_screen.dart';
 
 import '../widget/constant.dart';
 
