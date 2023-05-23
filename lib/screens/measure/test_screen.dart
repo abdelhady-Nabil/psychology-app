@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:psychology_app/screens/measure/reasult_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 import '../../model/question_model.dart';
 class TestScreen extends StatefulWidget {
@@ -6,11 +8,11 @@ class TestScreen extends StatefulWidget {
    final int start;
   final int end;
 
+
   TestScreen({
     required this.title,
      required this.start,
-    required this.end
-
+    required this.end,
 });
 
   @override
@@ -75,13 +77,26 @@ class _TestScreenState extends State<TestScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children:  [
-                  Text('السؤال ${currentQuestionIndex+1} / ${endQuestionIndex}',style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    fontWeight: FontWeight.bold
-                  ),),
+                  LinearPercentIndicator(
+                    animation: true,
+                    lineHeight: 20.0,
+                    animationDuration: 500,
+                    percent: ((currentQuestionIndex+1)/10)/(endQuestionIndex/10),
+                    barRadius: Radius.circular(20),
+                    progressColor: PrimaryColor,
+                    backgroundColor: Colors.grey[400],
+                    
+
+
+
+                  ),
+                  // Text('السؤال ${currentQuestionIndex+1} / ${endQuestionIndex}',style: const TextStyle(
+                  //     fontSize: 18,
+                  //     color: Colors.black,
+                  //   fontWeight: FontWeight.bold
+                  // ),),
                   const SizedBox(
-                    height: 15,
+                    height: 70,
                   ),
                   Container(
                     width: double.infinity,
@@ -132,13 +147,13 @@ class _TestScreenState extends State<TestScreen> {
         child: Text(answer.answerText),
         style: ElevatedButton.styleFrom(
           shape: const StadiumBorder(),
-          primary: isSelected ? PrimaryColor : Colors.grey,
+          primary: isSelected ? PrimaryColor : Colors.grey[400],
           onPrimary: isSelected ? Colors.white : Colors.black,
         ),
         onPressed: () {
           if (selectedAnswer == null) {
             if (answer.isCorrect) {
-              score++;
+              score+=10;
             }
             setState(() {
               selectedAnswer = answer;
@@ -166,6 +181,7 @@ class _TestScreenState extends State<TestScreen> {
         ),
         onPressed: (){
           if(isLastQuestion){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ReasultScreen(score: score,)));
           }else{
             setState(() {
               selectedAnswer = null;

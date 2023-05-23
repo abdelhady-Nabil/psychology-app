@@ -7,6 +7,7 @@ import 'package:psychology_app/widget/custom_item.dart';
 import '../../model/question_model.dart';
 import '../../widget/custom_item_list.dart';
 import '../../widget/custom_text.dart';
+import 'goal_measure.dart';
 class MeasureScreen extends StatelessWidget {
 
   List <QuestionModel> questionList = getQuestion();
@@ -58,13 +59,19 @@ class MeasureScreen extends StatelessWidget {
                        number: 8,
                        color: Colors.teal,
                        function: (){
-                         Navigator.push(context,
-                             MaterialPageRoute(
-                                 builder: (context)=>TestScreen(
-                                   start: 0,
-                                   end: 8,
-                                   title: 'مقياس تقدير الذات',
-                                 )));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                           title:'مقياس تقدير الذات',
+                           image: 'images/3.png',
+                           number: 8,
+                           color: Colors.teal,
+                         )));
+                         // Navigator.push(context,
+                         //     MaterialPageRoute(
+                         //         builder: (context)=>TestScreen(
+                         //           start: 0,
+                         //           end: 8,
+                         //           title: 'مقياس تقدير الذات',
+                         //         )));
                        },
                      ),
                      CustomItemList(
@@ -73,13 +80,12 @@ class MeasureScreen extends StatelessWidget {
                        number: 9,
                        color: Colors.pink,
                        function:(){
-                         Navigator.push(context,
-                             MaterialPageRoute(
-                                 builder: (context)=>TestScreen(
-                                   start: 8,
-                                   end: 16,
-                                   title: 'مقياس الرضا الزواجي',
-                                 )));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                           title:'مقياس الرضا الزواجي',
+                           image: 'images/1.png',
+                           number: 9,
+                           color: Colors.pink,
+                         )));
                        },
 
                      ),
@@ -96,13 +102,12 @@ class MeasureScreen extends StatelessWidget {
                        number: 10,
                        color: Colors.deepPurpleAccent,
                        function: (){
-                         Navigator.push(context,
-                             MaterialPageRoute(
-                                 builder: (context)=>TestScreen(
-                                   start: 11,
-                                   end: 15,
-                                   title: 'مقياس الاكتاب الحاد',
-                                 )));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                           title:'مقياس الاكتاب الحاد',
+                           image: 'images/5.png',
+                           number: 10,
+                           color: Colors.deepPurpleAccent,
+                         )));
                        },
 
                      ),
@@ -112,13 +117,13 @@ class MeasureScreen extends StatelessWidget {
                        number: 10,
                        color: Colors.deepOrange,
                        function: (){
-                         Navigator.push(context,
-                             MaterialPageRoute(
-                                 builder: (context)=>TestScreen(
-                                   start: 16,
-                                   end: 20,
-                                   title: 'مقياس القلق الدائم',
-                                 )));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                           title:'مقياس القلق الدائم',
+                           image: 'images/4.png',
+                           number: 10,
+                           color: Colors.deepOrange,
+                         )));
+
                        },
 
                      ),
@@ -137,13 +142,13 @@ class MeasureScreen extends StatelessWidget {
                        number: 10,
                        color: Colors.indigo,
                        function: (){
-                         Navigator.push(context,
-                             MaterialPageRoute(
-                                 builder: (context)=>TestScreen(
-                                   start: 20,
-                                   end: 25,
-                                   title: 'مقياس الوسواس',
-                                 )));
+                         Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                           title:'مقياس الوسواس ',
+                           image: 'images/2.png',
+                           number: 10,
+                           color: Colors.indigo,
+                         )));
+
                        },
 
                      ),

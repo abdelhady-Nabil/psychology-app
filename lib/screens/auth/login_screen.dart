@@ -5,6 +5,8 @@ import 'package:psychology_app/screens/auth/register_screen.dart';
 import '../../widget/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../layout_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -117,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               password: password);
 
                           if(user!=null){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
                             setState((){
                               showSpinner=false;
                             });

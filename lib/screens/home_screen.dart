@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SafeArea(
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     CustomText(
-                        text: 'psychology app',
+                        text: 'طبيبك النفسي',
                         fontSize: 20,
                       color: PrimaryColor,
                     ),

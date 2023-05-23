@@ -2,17 +2,32 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:psychology_app/screens/measure/test_screen.dart';
 
 import '../../widget/constant.dart';
 import '../../widget/custom_text.dart';
 class GoalMeasure extends StatefulWidget {
-  const GoalMeasure({Key? key}) : super(key: key);
+   GoalMeasure({Key? key,required this.title,required this.image,required this.number,required this.color}) : super(key: key);
+
+  final String title;
+  final String image;
+  final int number;
+   final Color color;
+
+
+
+
 
   @override
   State<GoalMeasure> createState() => _GoalMeasureState();
 }
 
 class _GoalMeasureState extends State<GoalMeasure> {
+   late String title = widget.title;
+   late String image = widget.image;
+   late int number = widget.number;
+   late Color color = widget.color;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +47,14 @@ class _GoalMeasureState extends State<GoalMeasure> {
                       alignment:Alignment.bottomCenter,
                       children: [
                         Container(
-                            color: Colors.pink,
+                            color: color,
                             width: double.infinity,
                             height: 200,
-                            child: Image.asset('images/1.png')),
+                            child: Image.asset('$image')),
                         Column(
                           children: [
-                            CustomText(text: 'مقياس الرضا الزواجي', fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold,),
-                            CustomText(text: '15 سؤال', fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold,),
+                            CustomText(text: '$title', fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold,),
+                            CustomText(text: '$number  سؤال', fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold,),
 
                           ],
                         ),
@@ -128,8 +143,67 @@ class _GoalMeasureState extends State<GoalMeasure> {
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: (){},
-                    child: Text('بدا المقياس',style: TextStyle(
+                    onPressed: (){
+                      switch(title) {
+                        case 'مقياس تقدير الذات': {
+                          // statements;
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    start: 0,
+                                    end: 8,
+                                    title:title,
+                                  )));
+                        }
+                        break;
+                        case 'مقياس الرضا الزواجي': {
+                          // statements;
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    start: 8,
+                                    end: 16,
+                                    title: 'مقياس الرضا الزواجي',
+                                  )));
+                        }
+                        break;
+                        case 'مقياس الاكتاب الحاد': {
+                          // statements;
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    start: 11,
+                                    end: 15,
+                                    title: 'مقياس الاكتاب الحاد',
+                                  )));
+                        }
+                        break;
+                        case 'مقياس القلق الدائم': {
+                          // statements;
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    start: 16,
+                                    end: 20,
+                                    title: 'مقياس القلق الدائم',
+                                  )));
+                        }
+                        break;
+                        case 'مقياس الوسواس ': {
+                          // statements;
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context)=>TestScreen(
+                                    start: 20,
+                                    end: 25,
+                                    title: 'مقياس الوسواس',
+                                  )));
+                        }
+                        break;
+                      }
+
+                    },
+                    child: const Text('بدا المقياس',style: TextStyle(
                         color: Colors.white,
                         fontSize: 20
                     ),),

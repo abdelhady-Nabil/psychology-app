@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:psychology_app/widget/custom_text.dart';
 
 import '../../widget/constant.dart';
 class ReasultScreen extends StatefulWidget {
-  const ReasultScreen({Key? key}) : super(key: key);
+
+  final int score ;
+
+  ReasultScreen({required this.score});
 
   @override
   State<ReasultScreen> createState() => _ReasultScreenState();
 }
 
 class _ReasultScreenState extends State<ReasultScreen> {
+
+  late int score = widget.score;
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -56,15 +64,24 @@ class _ReasultScreenState extends State<ReasultScreen> {
 
               Container(
                 width: double.infinity,
-                color: Colors.deepPurpleAccent,
+                color: Colors.white,
                 height: 200,
+                child: CircularPercentIndicator(
+                  radius: 80.0,
+                  lineWidth: 15.0,
+                  animation: true,
+                  percent: score/100,
+                  center: Text('$score %',style: TextStyle(fontSize: 40),),
+                  //footer:  Text('$score %',style: TextStyle(fontSize: 10),),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: PrimaryColor,
+                ),
               ),
 
               Expanded(
                 child: Container(
 
                   width: double.infinity,
-
                   child: Column(
                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -92,7 +109,8 @@ class _ReasultScreenState extends State<ReasultScreen> {
                     onPressed: (){},
                     child: Text('ناقش نتيجتك مع الاخصائي',style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20
+                        fontSize: 18,
+                      fontWeight: FontWeight.bold
                     ),),
 
                   ),

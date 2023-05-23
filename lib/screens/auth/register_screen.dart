@@ -4,6 +4,7 @@ import 'package:psychology_app/screens/auth/login_screen.dart';
 
 import '../../widget/constant.dart';
 import '../home_screen.dart';
+import '../layout_screen.dart';
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -140,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         );
                         Navigator.pushReplacement(
                             context, MaterialPageRoute(
-                            builder: (context)=>HomeScreen()));
+                            builder: (context)=>LayoutScreen()));
 
                       }catch(error){
                         print(error);
