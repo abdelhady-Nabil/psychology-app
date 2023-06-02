@@ -3,6 +3,7 @@ import 'package:psychology_app/screens/home_screen.dart';
 import 'package:psychology_app/screens/time_screen.dart';
 
 import '../widget/constant.dart';
+import 'call/start_call.dart';
 import 'chat_screen.dart';
 import 'measure/measure_screen.dart';
 import 'more_screen.dart';
@@ -14,11 +15,12 @@ class LayoutScreen extends StatefulWidget {
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
-  int index = 4;
+  int index = 5;
   List<Widget>screens=[
     MoreScreen(),
     MeasureScreen(),
     TimeScreen(),
+    StartCall(),
     ChatScreen(),
     HomeScreen(),
   ];
@@ -57,10 +59,16 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
           ),
           BottomNavigationBarItem(
+              icon: Icon(Icons.video_call_outlined),
+              label: 'فيديو'
+
+          ),
+          BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'محادثتي'
 
           ),
+
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'الرئيسيه'

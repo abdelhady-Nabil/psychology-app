@@ -42,7 +42,8 @@ dependencies:
   cloud_firestore: ^4.7.1
   percent_indicator: ^4.2.3
 
-
+  agora_rtc_engine: ^5.0.0
+  permission_handler: ^10.2.0
 
 #  cloud_firestore: ^4.7.10
 
