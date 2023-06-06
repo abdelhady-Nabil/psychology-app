@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:psychology_app/screens/layout_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'layout/layout_screen.dart';
 
 
 final _firestore = FirebaseFirestore.instance; // instance from cloud fire store
@@ -48,7 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   }
 
- //get massage
+  //get massage
   // void getMassages()async{
   //   final massages = await _firestore.collection('massags').get();
   //   //massages.docs; // all massages in cloud
@@ -59,12 +60,11 @@ class _ChatScreenState extends State<ChatScreen> {
   // }
 
   void massageStreams ()async{
-
-   await for( var snapShot in _firestore.collection('massags').snapshots()){
-     for(var massage in snapShot.docs){
-       print(massage.data());
-     }
-   };
+    await for( var snapShot in _firestore.collection('massags').snapshots()){
+      for(var massage in snapShot.docs){
+        print(massage.data());
+      }
+    };
 
   }
 
@@ -94,12 +94,12 @@ class _ChatScreenState extends State<ChatScreen> {
             //field and button send
             Container(
               decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.deepPurple,
-                    width: 2,
+                  border: Border(
+                      top: BorderSide(
+                        color: Colors.deepPurple,
+                        width: 2,
+                      )
                   )
-                )
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,8 +132,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         });
                       },
                       child: const Text('Send',style:TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold
                       ) ,)
                   ),
                 ],
@@ -212,17 +212,17 @@ class TextMessage extends StatelessWidget {
         children: [
           Text('$sender',style: TextStyle(fontSize: 12,color: Colors.black45),),
           Material(
-            elevation: 10,
-            borderRadius:isMe ?BorderRadius.only(
-              topLeft: Radius.circular(30),
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30)
-            ) : BorderRadius.only(
-                topRight: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30)
-            ) ,
-            color: isMe ? PrimaryColor : Colors.teal,
+              elevation: 10,
+              borderRadius:isMe ?BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)
+              ) : BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)
+              ) ,
+              color: isMe ? PrimaryColor : Colors.teal,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text('$text',style: TextStyle(color: Colors.white,fontSize: 15),),
@@ -233,4 +233,3 @@ class TextMessage extends StatelessWidget {
     );
   }
 }
-

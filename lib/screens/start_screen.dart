@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:psychology_app/screens/auth/login_screen.dart';
 
+import '../auth/login/login_screen.dart';
 import '../widget/constant.dart';
 
 class StartScreen extends StatelessWidget {
@@ -18,7 +18,7 @@ class StartScreen extends StatelessWidget {
             Container(
               width: double.infinity,
               height: double.infinity,
-              child: Image.asset('images/logo.jpg'),
+              child: Image.asset('images/logo1.jpg'),
             ),
             TextButton(onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
