@@ -1,7 +1,9 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:psychology_app/model/message_model.dart';
 import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
@@ -16,83 +18,109 @@ class ChatDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PsychologyCubit,PsychologyState>(
-      listener: (context,state){},
-      builder: (context,state){
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            elevation: 0,
-            titleSpacing: 0,
-            title: Row(
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage('images/dd.png'),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Text('${model.name}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
-              ],
-            ),
+    return Builder( //acsess onmessage befor consumer srat
+      builder: (BuildContext context){
 
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                buildMessage(),
-                buildMyMessage(),
-                Spacer(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+        PsychologyCubit.get(context).getMessages(
+            receiverId: model.userId
+        );
+
+        return BlocConsumer<PsychologyCubit,PsychologyState>(
+          listener: (context,state){},
+          builder: (context,state){
+            return Scaffold(
+              backgroundColor: Colors.white,
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                titleSpacing: 0,
+                title: Row(
                   children: [
-                    Expanded(
-                        child: TextField(
-                          controller: messageTextController,
-                          onChanged: (value){
-                            //massageText = value;
-                          },
-
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 20,
-                            ),
-                            hintText: 'Enter your massage here',
-                            border: InputBorder.none,
-                          ),
-
-                        )
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: AssetImage('images/dd.png'),
                     ),
-                    TextButton(
-                        onPressed: (){
-                          //messageTextController.clear();
-                          PsychologyCubit.get(context).sendMessage(
-                              receiverId: model.userId,
-                              dateTime: DateTime.now(),
-                              text: messageTextController.text
-                          );
-                        },
-                        child: const Text('Send',style:TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold
-                        ) ,)
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text('${model.name}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                  ],
+                ),
+
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                   Expanded(
+                     child: ListView.separated(
+                         itemBuilder: (context,index){
+                           var message = PsychologyCubit.get(context).messages[index];
+
+                           if(PsychologyCubit.get(context).model.userId == message.senderId){
+                             return buildMyMessage(message);
+                           }else{
+                             return buildMessage(message);
+                           }
+
+                         },
+                         separatorBuilder: (context,state)=>SizedBox(
+                           height: 15,
+                         ),
+                         itemCount: PsychologyCubit.get(context).messages.length
+                     ),
+                   ),
+                    //Spacer(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: TextField(
+                              controller: messageTextController,
+                              onChanged: (value){
+                                //massageText = value;
+                              },
+
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 20,
+                                ),
+                                hintText: 'Enter your massage here',
+                                border: InputBorder.none,
+                              ),
+
+                            )
+                        ),
+                        TextButton(
+                            onPressed: (){
+                              //messageTextController.clear();
+                              PsychologyCubit.get(context).sendMessage(
+                                  receiverId: model.userId,
+                                  dateTime: DateTime.now().toString(),
+                                  text: messageTextController.text
+                              );
+                            },
+                            child: const Text('Send',style:TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                            ) ,)
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
 
+            );
+          },
         );
       },
+
     );
   }
 
-  Widget buildMessage()=>Align(
+  Widget buildMessage(MessageModel model)=>Align(
     alignment: AlignmentDirectional.centerStart,
     child: Material(
         elevation: 10,
@@ -105,11 +133,11 @@ class ChatDetailsScreen extends StatelessWidget {
         color: Colors.teal,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Text('Hello Abdoksk',style: TextStyle(color: Colors.white,fontSize: 15),),
+          child: Text(model.text,style: TextStyle(color: Colors.white,fontSize: 15),),
         )
     ),
   );
-  Widget buildMyMessage()=>Align(
+  Widget buildMyMessage(MessageModel model)=>Align(
     alignment: AlignmentDirectional.centerEnd,
     child: Material(
         elevation: 10,
@@ -122,7 +150,7 @@ class ChatDetailsScreen extends StatelessWidget {
         color: PrimaryColor,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Text('Hello Abdoksk',style: TextStyle(color: Colors.white,fontSize: 15),),
+          child: Text(model.text,style: TextStyle(color: Colors.white,fontSize: 15),),
         )
     ),
   );

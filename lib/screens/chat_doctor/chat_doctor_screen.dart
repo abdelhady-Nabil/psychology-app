@@ -1,8 +1,10 @@
+import 'package:animated_conditional_builder/animated_conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
+import 'package:psychology_app/screens/layout/layout_screen.dart';
 import 'package:psychology_app/screens/measure/chat_details_screen.dart';
 class ChatDoctorScreen extends StatelessWidget {
   const ChatDoctorScreen({Key? key}) : super(key: key);
@@ -18,12 +20,20 @@ class ChatDoctorScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  Row(
+                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'Chats',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                      Spacer(),
-                      IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward))
+                        'تحدث مع طبيبك',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                      SizedBox(
+                        width: 60,
+                      ),
+
+                      IconButton(onPressed: (){
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (context)=>LayoutScreen()));
+                      }, icon: Icon(Icons.arrow_forward))
 
                     ],
                   ),
@@ -32,15 +42,19 @@ class ChatDoctorScreen extends StatelessWidget {
                   ),
 
                   Expanded(
-                    child: ListView.separated(
-                      physics: BouncingScrollPhysics(),
-                        itemBuilder: (context,index)=>buildChatItem(context,PsychologyCubit.get(context).users[index]),
-                        separatorBuilder:(context,index)=> Container(
-                          width: double.infinity,
-                          height: 1,
-                          color: Colors.grey,
-                        ),
-                        itemCount: PsychologyCubit.get(context).users.length
+                    child: AnimatedConditionalBuilder(
+                      condition: PsychologyCubit.get(context).users.length>0,
+                      builder: (context)=> ListView.separated(
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context,index)=>buildChatItem(context,PsychologyCubit.get(context).users[index]),
+                          separatorBuilder:(context,index)=> Container(
+                            width: double.infinity,
+                            height: 1,
+                            color: Colors.grey,
+                          ),
+                          itemCount:PsychologyCubit.get(context).users.length
+                      ),
+                      fallback: (context)=>Center(child: CircularProgressIndicator(),),
                     ),
                   ),
 

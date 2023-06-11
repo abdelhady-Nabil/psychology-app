@@ -1,13 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageModel{
 
   late String senderId;
   late String receiverId;
- late DateTime  dateTime;
+ late String dateTime;
   late String text;
-
-
-
-
 
 
   MessageModel({

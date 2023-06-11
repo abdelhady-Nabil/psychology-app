@@ -15,10 +15,8 @@ class PsychologyCubit extends Cubit<PsychologyState>{
   PsychologyCubit() : super(PsychologyInitialState());
 
   static PsychologyCubit get(context) =>BlocProvider.of(context);
-
   //indecator progress
   bool showSpinner = false;
-
   late UserModel model;
 
   void getUserData(){
@@ -30,7 +28,7 @@ class PsychologyCubit extends Cubit<PsychologyState>{
         .get()
         .then((value){
           //print(value.data()!); // is map
-      //take map
+         //take map
           //print('ddddddddddddddd');
           //print('${value.id}');
           //uid=value.id;
@@ -41,33 +39,32 @@ class PsychologyCubit extends Cubit<PsychologyState>{
           emit(GetUserErrorState());
     });
 
-
-
-
-
-
-
   }
 
   List<UserModel> users =[];
-  
-  void getUsers(){ //get doctor if you change the collection
-    FirebaseFirestore.instance.collection('users').get()
-        .then((value){
-          value.docs.forEach((element) { 
+
+
+  void getUsers() {
+    //get doctor if you change the collection
+    if (users.length == 0) {
+      FirebaseFirestore.instance.collection('users').get()
+          .then((value) {
+        value.docs.forEach((element) {
+          if(element.data()['uid'] != model.userId) {
             users.add(UserModel.fromJson(element.data()));
-          });
-          emit(GetAllUserSuccessState());
-    })
-        .catchError((error){
-          emit(GetAllUserErrorState());
-    });
+          }
+        });
+        emit(GetAllUserSuccessState());
+      }).catchError((error) {
+        emit(GetAllUserErrorState());
+      });
+    }
   }
 
 
   void sendMessage({
     required String receiverId,
-    required DateTime dateTime,
+    required String dateTime,
     required String text,
 }){
     MessageModel modelMessage = MessageModel(
@@ -82,8 +79,8 @@ class PsychologyCubit extends Cubit<PsychologyState>{
     .doc(model.userId)//me
     .collection('chats')
     .doc(receiverId) //with
-    .collection('message') //messages
-    .add(model.toMap()) //add message
+    .collection('messages') //messages
+    .add(modelMessage.toMap()) //add message
     .then((value){
       emit(SendMessageSuccessState());
     })
@@ -97,8 +94,8 @@ class PsychologyCubit extends Cubit<PsychologyState>{
         .doc(receiverId)//with
         .collection('chats')
         .doc(model.userId) //me
-        .collection('message') //messages
-        .add(model.toMap()) //add message
+        .collection('messages') //messages
+        .add(modelMessage.toMap()) //add message
         .then((value){
       emit(SendMessageSuccessState());
     })
@@ -106,11 +103,34 @@ class PsychologyCubit extends Cubit<PsychologyState>{
       emit(SendMessageErrorState());
     });
 
-
-
-
   }
 
+  List<MessageModel> messages =[];
 
+  void getMessages({
+  required String receiverId
+}) {
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(model.userId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots() //return stream of query
+        .listen((event) {  //event is messages
+
+          messages = []; //zeros list
+
+          event.docs.forEach((element) {
+            messages.add(MessageModel.fromJson(element.data()));
+
+          });
+
+          emit(GetMessageSuccessState());
+
+    });
+  }
 
 }

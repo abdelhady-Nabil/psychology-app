@@ -7,7 +7,8 @@ import 'layout/layout_screen.dart';
 
 
 final _firestore = FirebaseFirestore.instance; // instance from cloud fire store
-late User signedInUser; // this will give us the email
+late User signedInUser;
+// this will give us the email
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -21,8 +22,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   String? massageText; //massage user enter //this will give us the massage
-
-
 
 
   @override

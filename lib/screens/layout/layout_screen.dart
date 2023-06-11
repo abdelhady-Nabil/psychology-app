@@ -5,6 +5,7 @@ import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/screens/time_screen.dart';
 
+
 import '../../widget/constant.dart';
 import '../call/start_call.dart';
 import '../chat_doctor/chat_doctor_screen.dart';
@@ -37,10 +38,11 @@ class _LayoutScreenState extends State<LayoutScreen> {
           backgroundColor: Colors.white,
           body: screens[index],
           bottomNavigationBar: BottomNavigationBar(
-
-
             currentIndex: index,
             onTap: (value){
+              if(value == 4 ){
+                PsychologyCubit.get(context).getUsers();
+              }
               setState(() {
                 index=value;
                 screens[index];

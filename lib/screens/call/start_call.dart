@@ -31,15 +31,20 @@ class _StartCallState extends State<StartCall> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
-                    },
-                    icon: Icon(Icons.arrow_back),
+                  Text(
+                    'الاستشاره الاون لاين',style: TextStyle(fontSize: 20,),),
+                  SizedBox(
+                    width: 50,
                   ),
-                  Spacer(),
-                  Text('استشاره اون لاين'),
+
+                  IconButton(onPressed: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context)=>LayoutScreen()));
+                  }, icon: Icon(Icons.arrow_forward))
+
                 ],
               ),
             ),

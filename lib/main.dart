@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:psychology_app/auth/login/login_screen.dart';
+import 'package:psychology_app/auth/register/register_screen.dart';
 import 'package:psychology_app/screens/chat_screen.dart';
 import 'package:psychology_app/screens/home_screen.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
@@ -19,13 +20,18 @@ import 'package:psychology_app/shared/cache_helper.dart';
 import 'package:psychology_app/user_provider.dart';
 import 'package:psychology_app/widget/constant.dart';
 import '../widget/custom_item.dart';
+import 'package:flutter/material.dart';
+import 'package:booking_calendar/booking_calendar.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
+import 'doctor/doctor_home.dart';
 
 void main()async{
   Bloc.observer = const SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized(); //access binding firebase
   await Firebase.initializeApp();
   await CacheHelper.init();
+
 
   Widget widget;
 
@@ -36,18 +42,18 @@ void main()async{
   }else{
     widget = LoginScreen();
   }
-
-  runApp(MultiBlocProvider(
+  initializeDateFormatting()
+      .then((_) =>runApp(MultiBlocProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
       BlocProvider(
-          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()
+          create:(BuildContext context)=>PsychologyCubit()..getUserData()
       ),
     ],
     child: MyApp(
       startWidget :widget,
     ),
-  ),);
+  )));
 }
 
 class MyApp extends StatelessWidget {

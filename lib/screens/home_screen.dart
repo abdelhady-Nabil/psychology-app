@@ -9,6 +9,7 @@ import 'package:psychology_app/screens/measure/test_screen.dart';
 import 'package:psychology_app/screens/time_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 
+import '../auth/login/login_screen.dart';
 import '../model/question_model.dart';
 import '../widget/custom_item.dart';
 import '../widget/custom_text.dart';
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children:  [
                         Row(
                           children: const [
-                            Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,),
+                            Icon(Icons.question_mark_outlined,color: Colors.deepPurpleAccent,),
                             SizedBox(
                               width: 5,
                             ),
@@ -115,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           children: const [
                             Text(', اهلا بك',style: TextStyle(color: Colors.grey,fontSize: 20),),
-                            Text('عبدالهادي',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                            Text('في عيادتك',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
 
                             SizedBox(
                               height: 5,

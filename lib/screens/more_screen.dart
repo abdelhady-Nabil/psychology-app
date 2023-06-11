@@ -12,26 +12,12 @@ import 'package:psychology_app/widget/constant.dart';
 import '../auth/login/login_screen.dart';
 import '../services/firebase_services.dart';
 
-class MoreScreen extends StatefulWidget {
+class MoreScreen extends StatelessWidget {
   const MoreScreen({Key? key}) : super(key: key);
   @override
-  State<MoreScreen> createState() => _MoreScreenState();
-}
-
-class _MoreScreenState extends State<MoreScreen> {
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var userModel = PsychologyCubit.get(context).model;
+     var userModel = PsychologyCubit.get(context).model;
     //userModel.userId=uid;
-
     return BlocConsumer<PsychologyCubit,PsychologyState>(
       listener: (context,state){},
       builder: (context,state){
