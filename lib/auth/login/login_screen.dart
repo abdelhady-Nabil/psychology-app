@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:psychology_app/screens/layout/layout_screen.dart';
 
+import '../../admin/admin_login.dart';
 import '../../shared/cache_helper.dart';
 import '../../widget/constant.dart';
 import '../register/register_screen.dart';
@@ -140,14 +141,14 @@ class LoginScreen extends StatelessWidget {
                           color: PrimaryColor,
                           child: TextButton(
                             onPressed: ()async{
+                              LoginCubit.get(context).playSpinner();
                               if(_formKey.currentState!.validate()){
-
                                 LoginCubit.get(context).userLogin(
                                     email: EmailTextController.text,
                                     password: passwordController.text
                                 );
                               }
-
+                              LoginCubit.get(context).showSpinner;
                               // if(_formKey.currentState!.validate()){
                               //   setState((){
                               //     showSpinner=true;
@@ -198,7 +199,30 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: const Text('Are you Admin ?',style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+
+                              ),),
+                            ),
+                            TextButton(
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
+                              },
+                              child: const Text('Login as Admin now',style: TextStyle(
+                                  color: PrimaryColor
+                              ),),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

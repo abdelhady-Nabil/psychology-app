@@ -10,6 +10,8 @@ import 'package:psychology_app/screens/time_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 
 import '../auth/login/login_screen.dart';
+import '../booking/booking_screen.dart';
+import '../model/doctor_model.dart';
 import '../model/question_model.dart';
 import '../widget/custom_item.dart';
 import '../widget/custom_text.dart';
@@ -73,9 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:  [
@@ -116,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           children: const [
                             Text(', اهلا بك',style: TextStyle(color: Colors.grey,fontSize: 20),),
-                            Text('في عيادتك',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                            Text('من جديد',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
 
                             SizedBox(
                               height: 5,
@@ -129,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    //banner show
                     Container(
                       width:double.infinity,
                       height: 100,
@@ -283,6 +286,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 30,
                     ),
+
+
                     Row(
                       children:  [
                         CustomText(
@@ -293,67 +298,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Spacer(),
                         CustomText(
-                          text: 'مجموعات الدعم',
+                          text:'اوجد طبيبك',
                           fontSize: 15,
                           color:PrimaryColor,
                         ),
                       ],
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                child: Image.asset('images/1.png'),
-                                width: 100,
-                                height: 100,
-                              ),
-                              Text('General'),
-                            ],
+                    const SizedBox(
+                      height: 30,
+                    ),
+
+
+                    SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                          physics: ClampingScrollPhysics(),
+                          primary: false,
+                          shrinkWrap: true,
+
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context,index)=>DoctorItem(context,PsychologyCubit.get(context).doctors[index]),
+                          separatorBuilder: (context,index)=> SizedBox(
+                            width: 10,
                           ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                child: Image.asset('images/children.png'),
-                                width: 100,
-                                height: 100,
-                              ),
-                              Text('child'),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                child: Image.asset('images/g.jpg'),
-                                width: 100,
-                                height: 100,
-                              ),
-                              Text('General'),
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            children:[
-                              Container(
-                                child: Image.asset('images/g.jpg'),
-                                width: 100,
-                                height: 100,
-                              ),
-                              Text('General'),
-                            ],
-                          ),
-                        ],
-                      ),
+                          itemCount: PsychologyCubit.get(context).doctors.length),
                     ),
                   ],
                 ),
@@ -364,6 +332,164 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
 
+    );
+  }
+
+  Widget DoctorItem(context,DoctorModel model){
+    return GestureDetector(
+      onTap: (){
+        Scaffold.of(context).showBottomSheet((context){
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[10],
+              borderRadius: BorderRadius.circular(40)
+            ),
+            height: 600,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: PrimaryColor,
+                      backgroundImage: AssetImage('images/dd.png'),
+                      radius: 60,
+                    ),
+                    Text('Dr. ${model.name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                    Text('Psychologist',style: TextStyle(fontSize: 20,color: Colors.grey),),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            radius: 35,
+                            child: IconButton(
+                              icon: Icon(Icons.chat,color: PrimaryColor,),
+                              onPressed: (){},
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            radius: 35,
+                            child: IconButton(
+                              icon: Icon(Icons.video_call_outlined,color: PrimaryColor),
+                              onPressed: (){},
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            radius: 35,
+                            child: IconButton(
+                              icon: Icon(Icons.share,color: PrimaryColor),
+                              onPressed: (){},
+                            ),
+                          ),
+                          CircleAvatar(
+                            backgroundColor: Colors.grey[100],
+                            radius: 35,
+                            child: IconButton(
+                              icon: Icon(Icons.read_more,color: PrimaryColor),
+                              onPressed: (){},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Container(
+                      alignment: Alignment.topLeft,
+                        child: Text('Achievement',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+
+                    Container(
+                      width: double.infinity,
+                      height: 200,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                      child: Image.asset('images/aa.png'),
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                  Text('120+',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                  Text('Patient'),
+
+                                ],
+
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    child: Image.asset('images/bb.png'),
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                  Text('5+',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
+                                  Text('Exparience'),
+
+                                ],
+
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+
+
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+
+                      decoration: BoxDecoration(
+                          color: PrimaryColor,
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: TextButton(onPressed: (){
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=>BookingScreen()));
+                      }, child:Text('احجز الان',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)),
+                    ),
+
+
+                    TextButton(onPressed: (){
+                      Navigator.pop(context);
+                    }, child:Text('back',style: TextStyle(color: Colors.black),)),
+
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+      },
+      child: Column(
+        children: [
+          Container(
+            height: 120,
+            width: 170,
+            child: Image.asset('images/dd.png'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text('Dr. ${model.name}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+        ],
+      ),
     );
   }
 

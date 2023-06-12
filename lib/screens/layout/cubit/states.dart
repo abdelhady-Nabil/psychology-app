@@ -11,6 +11,11 @@ class GetAllUserLoadingState extends PsychologyState{}
 class GetAllUserSuccessState extends PsychologyState{}
 class GetAllUserErrorState extends PsychologyState{}
 
+class GetAllDoctorLoadingState extends PsychologyState{}
+class GetAllDoctorSuccessState extends PsychologyState{}
+class GetAllDoctorErrorState extends PsychologyState{}
+
+
 class SendMessageSuccessState extends PsychologyState{}
 class SendMessageErrorState extends PsychologyState{}
 

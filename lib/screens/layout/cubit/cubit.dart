@@ -8,6 +8,7 @@ import 'package:psychology_app/model/message_model.dart';
 import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 
+import '../../../model/doctor_model.dart';
 import '../../../widget/constant.dart';
 
 class PsychologyCubit extends Cubit<PsychologyState>{
@@ -42,7 +43,6 @@ class PsychologyCubit extends Cubit<PsychologyState>{
   }
 
   List<UserModel> users =[];
-
 
   void getUsers() {
     //get doctor if you change the collection
@@ -122,7 +122,6 @@ class PsychologyCubit extends Cubit<PsychologyState>{
         .listen((event) {  //event is messages
 
           messages = []; //zeros list
-
           event.docs.forEach((element) {
             messages.add(MessageModel.fromJson(element.data()));
 
@@ -132,5 +131,24 @@ class PsychologyCubit extends Cubit<PsychologyState>{
 
     });
   }
+
+
+  List<DoctorModel> doctors =[];
+
+  void getDoctors() {
+    //get doctor if you change the collection
+    if (doctors.length == 0) {
+      FirebaseFirestore.instance.collection('doctors').get()
+          .then((value) {
+        value.docs.forEach((element) {
+          doctors.add(DoctorModel.fromJson(element.data()));
+        });
+        emit(GetAllDoctorSuccessState());
+      }).catchError((error) {
+        emit(GetAllDoctorErrorState());
+      });
+    }
+  }
+
 
 }

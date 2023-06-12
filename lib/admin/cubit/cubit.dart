@@ -4,77 +4,72 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:psychology_app/admin/cubit/states.dart';
 import 'package:psychology_app/auth/register/cubit/states.dart';
 
-import '../../../model/user_model.dart';
+import '../../../model/doctor_model.dart';
 
-class RegisterCubit extends Cubit<RegisterState>{
+class RegisterDoctorCubit extends Cubit<RegisterDoctorState>{
 
-  RegisterCubit() : super(RegisterInitialState());
+  RegisterDoctorCubit() : super(RegisterDoctorInitialState());
 
-  static RegisterCubit get(context) =>BlocProvider.of(context);
+  static RegisterDoctorCubit get(context) =>BlocProvider.of(context);
 
 
   //indecator progress
   bool showSpinner = false;
 
-  void playSpinner(){
-    showSpinner=true;
-  }
-
-  void userRegister({
+  void RegisterDoctor({
     required String name,
     required String email,
     required String password,
     required String phone,
 }){
-    emit(RegisterLoadingState());
-
+    emit(RegisterDoctorLoadingState());
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password
     ).then((value){
-      userCreate(
+      doctorCreate(
         uid: value.user!.uid,
         name: name, //جي بعد كده
         email: email,
         phone: phone,
         password: password
       );
-          emit(RegisterSuccessState());
+          emit(RegisterDoctorSuccessState());
     }).catchError((error){
-      emit(RegisterErrorState());
+      emit(RegisterDoctorErrorState());
     });
 
   }
 
-  //use it in userRegister above
-  void userCreate({
+  //use it in doctorRegisterDoctor above
+  void doctorCreate({
     required String name,
     required String email,
     required String password,
     required String phone,
     required String uid
   }){
-    UserModel model = UserModel(
+    DoctorModel model = DoctorModel(
       name: name,
       email: email,
       password: password,
       phone: phone,
-      userId: uid,
+      doctorId: uid,
     );
     FirebaseFirestore.instance
-        .collection('users')
+        .collection('doctors')
         .doc(uid)
         .set(model.toMap())
         .then((value){ //خلاص خلصت
-          emit(CreateUserSuccessState());
+          emit(CreateDoctorSuccessState());
     }).catchError((error){
-          emit(CreateUserErrorState());
+          emit(CreateDoctorErrorState());
     });
 
   }
-
 
 
 

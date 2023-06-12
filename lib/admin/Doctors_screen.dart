@@ -1,13 +1,12 @@
 import 'package:animated_conditional_builder/animated_conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:psychology_app/model/user_model.dart';
-import 'package:psychology_app/screens/layout/cubit/cubit.dart';
-import 'package:psychology_app/screens/layout/cubit/states.dart';
-import 'package:psychology_app/screens/layout/layout_screen.dart';
-import 'package:psychology_app/screens/chat_doctor/chat_details_screen.dart';
-class ChatDoctorScreen extends StatelessWidget {
-  const ChatDoctorScreen({Key? key}) : super(key: key);
+
+import '../model/doctor_model.dart';
+import '../screens/layout/cubit/cubit.dart';
+import '../screens/layout/cubit/states.dart';
+class DoctorsScreen extends StatelessWidget {
+  const DoctorsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +19,17 @@ class ChatDoctorScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'تحدث مع طبيبك',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                        'All Doctors',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
                       SizedBox(
                         width: 60,
                       ),
 
                       IconButton(onPressed: (){
-                        Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context)=>LayoutScreen()));
+                        Navigator.pop(context);
                       }, icon: Icon(Icons.arrow_forward))
 
                     ],
@@ -43,16 +40,16 @@ class ChatDoctorScreen extends StatelessWidget {
 
                   Expanded(
                     child: AnimatedConditionalBuilder(
-                      condition: PsychologyCubit.get(context).users.length>0,
+                      condition: PsychologyCubit.get(context).doctors.length>0,
                       builder: (context)=> ListView.separated(
                           physics: BouncingScrollPhysics(),
-                          itemBuilder: (context,index)=>buildChatItem(context,PsychologyCubit.get(context).users[index]),
+                          itemBuilder: (context,index)=>buildDoctorItem(context,PsychologyCubit.get(context).doctors[index]),
                           separatorBuilder:(context,index)=> Container(
                             width: double.infinity,
                             height: 1,
                             color: Colors.grey,
                           ),
-                          itemCount:PsychologyCubit.get(context).users.length
+                          itemCount:PsychologyCubit.get(context).doctors.length
                       ),
                       fallback: (context)=>Center(child: CircularProgressIndicator(),),
                     ),
@@ -68,9 +65,8 @@ class ChatDoctorScreen extends StatelessWidget {
     );
   }
 
-  Widget buildChatItem(context,UserModel model)=> InkWell(
+  Widget buildDoctorItem(context,DoctorModel model)=> InkWell(
     onTap: (){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>ChatDetailsScreen(model: model)));
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 20.0,bottom: 20),

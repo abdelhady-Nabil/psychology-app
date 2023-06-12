@@ -34,6 +34,7 @@ class ChatDetailsScreen extends StatelessWidget {
                 backgroundColor: Colors.white,
                 elevation: 0,
                 titleSpacing: 0,
+
                 title: Row(
                   children: [
                     CircleAvatar(
@@ -46,11 +47,16 @@ class ChatDetailsScreen extends StatelessWidget {
                     Text('${model.name}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
                   ],
                 ),
-
+                actions: [
+                  IconButton(onPressed: (){
+                    Navigator.pop(context);
+                  }, icon: Icon(Icons.arrow_forward,color: Colors.black,))
+                ],
               ),
               body: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
+
                   children: [
                    Expanded(
                      child: ListView.separated(
@@ -100,6 +106,7 @@ class ChatDetailsScreen extends StatelessWidget {
                                   dateTime: DateTime.now().toString(),
                                   text: messageTextController.text
                               );
+                              messageTextController.clear();
                             },
                             child: const Text('Send',style:TextStyle(
                                 color: Colors.black,

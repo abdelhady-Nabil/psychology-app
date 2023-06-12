@@ -1,40 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:psychology_app/screens/layout/layout_screen.dart';
+import 'package:psychology_app/auth/login/login_screen.dart';
 
-import '../../../auth/register/register_screen.dart';
-import '../../../shared/cache_helper.dart';
-import '../../../widget/constant.dart';
-
-import 'cubit/cubit.dart';
-import 'cubit/states.dart';
-
-
-class LoginDoctorScreen extends StatelessWidget {
-  LoginDoctorScreen({Key? key}) : super(key: key);
+import '../auth/login/cubit/cubit.dart';
+import '../auth/login/cubit/states.dart';
+import '../shared/cache_helper.dart';
+import '../widget/constant.dart';
+import 'admin_home_screen.dart';
+class AdminLogin extends StatelessWidget {
+   AdminLogin({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController  EmailTextController = TextEditingController();
-  final TextEditingController  passwordController = TextEditingController();
-
-
+  final TextEditingController  _EmailTextController = TextEditingController();
+  final TextEditingController  _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: BlocProvider(
-        create: (BuildContext context)=>LoginDoctorCubit(),
-        child: BlocConsumer<LoginDoctorCubit,LoginDoctorState>(
+        create: (BuildContext context)=>LoginCubit(),
+        child: BlocConsumer<LoginCubit,LoginState>(
           listener: (context,state ){
-            if(state is LoginDoctorSuccessState){
+            if(state is LoginSuccessState){
               CacheHelper.saveData(
                   key: 'uid',
                   value: state.uid
               ).then((value){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminHomeScreen()));
               }).catchError((error){});
             }
           },
@@ -46,7 +41,7 @@ class LoginDoctorScreen extends StatelessWidget {
                 elevation: 0,
               ),
               body: ModalProgressHUD(
-                inAsyncCall: LoginDoctorCubit.get(context).showSpinner,
+                inAsyncCall: LoginCubit.get(context).showSpinner,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: SingleChildScrollView(
@@ -54,9 +49,9 @@ class LoginDoctorScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[
-                        const Text('LoginDoctor',style: TextStyle(
+                        const Text('Login To Admin Account',style: TextStyle(
                             fontSize: 30,
-                            color: Colors.black,
+                            color: PrimaryColor,
                             fontWeight: FontWeight.bold
                         ),),
                         const SizedBox(
@@ -76,7 +71,7 @@ class LoginDoctorScreen extends StatelessWidget {
 
                           ),
                           cursorColor: PrimaryColor,
-                          controller:EmailTextController ,
+                          controller:_EmailTextController ,
                           validator: (value){
                             if(value!.isEmpty){
                               return "Enter your Email";
@@ -88,7 +83,7 @@ class LoginDoctorScreen extends StatelessWidget {
                             return null;
                           },
                           onChanged: (value){
-                            value = EmailTextController.text;
+                            value = _EmailTextController.text;
                           },
                         ),
                         const SizedBox(
@@ -110,7 +105,7 @@ class LoginDoctorScreen extends StatelessWidget {
 
                           ),
                           cursorColor: PrimaryColor,
-                          controller:passwordController ,
+                          controller:_passwordController ,
                           validator: (value){
                             if(value!.isEmpty){
                               return "Enter your Email";
@@ -118,7 +113,7 @@ class LoginDoctorScreen extends StatelessWidget {
                           },
 
                           onChanged: (value){
-                            value = passwordController.text;
+                            value = _passwordController.text;
                           },
                         ),
                         const SizedBox(
@@ -142,11 +137,32 @@ class LoginDoctorScreen extends StatelessWidget {
                           child: TextButton(
                             onPressed: ()async{
                               if(_formKey.currentState!.validate()){
+                                showDialog(
+                                    context: context,
+                                    builder: (context){
+                                      return AlertDialog(
+                                        title: Center(child: CircularProgressIndicator(),),
+                                      );
+                                    });
 
-                                LoginDoctorCubit.get(context).userLoginDoctor(
-                                    email: EmailTextController.text,
-                                    password: passwordController.text
-                                );
+                                await FirebaseFirestore.instance.collection('admin').doc('adminLogin').snapshots().forEach((element) {
+                                  if(element.data()?['adminEmail'] == _EmailTextController.text && element.data()?['adminPassword']==_passwordController.text){
+                                    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>AdminHomeScreen()));
+                                  }
+                                }).catchError((e){
+                                  showDialog(
+                                      context: context,
+                                      builder: (context){
+                                        return AlertDialog(
+                                          title: Text('error Message'),
+                                          content: Text(e.toString()),
+                                        );
+                                      });
+                                });
+                                // LoginCubit.get(context).userLogin(
+                                //     email: _EmailTextController.text,
+                                //     password: _passwordController.text
+                                // );
                               }
 
                               // if(_formKey.currentState!.validate()){
@@ -171,7 +187,7 @@ class LoginDoctorScreen extends StatelessWidget {
                               // }
 
                             },
-                            child: const Text('LoginDoctor',style: TextStyle(
+                            child: const Text('Login',style: TextStyle(
                                 color: Colors.white
                             ),),
                           ),
@@ -183,7 +199,7 @@ class LoginDoctorScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              child: const Text('Dont have ana account ?',style: TextStyle(
+                              child: const Text('Not Admin ?',style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
 
@@ -191,9 +207,9 @@ class LoginDoctorScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                               },
-                              child: const Text('Register now',style: TextStyle(
+                              child: const Text('back to Login as user',style: TextStyle(
                                   color: PrimaryColor
                               ),),
                             ),

@@ -1,34 +1,28 @@
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:psychology_app/admin/cubit/cubit.dart';
+import 'package:psychology_app/admin/succes_add_doctor.dart';
 
-
-import '../../screens/layout/layout_screen.dart';
-import '../../widget/constant.dart';
-import 'cubit/cubit.dart';
+import '../widget/constant.dart';
 import 'cubit/states.dart';
-class RegisterScreen extends StatelessWidget {
-   RegisterScreen({Key? key}) : super(key: key);
-
-  final TextEditingController  _nameTextController = TextEditingController();
-  final TextEditingController  _EmailTextController = TextEditingController();
-  final TextEditingController  _phoneEmailController = TextEditingController();
-  final TextEditingController  _passwordController = TextEditingController();
-  final String _gender= 'male' ;
-
-
+class AddDoctorScreen extends StatelessWidget {
+   AddDoctorScreen({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+   bool showSpinner = false;
 
-
+   final TextEditingController  _nameTextController = TextEditingController();
+   final TextEditingController  _EmailTextController = TextEditingController();
+   final TextEditingController  _phoneEmailController = TextEditingController();
+   final TextEditingController  _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context)=>RegisterCubit(),
-      child: BlocConsumer<RegisterCubit,RegisterState>(
+    return  BlocProvider(
+      create: (BuildContext context)=>RegisterDoctorCubit(),
+      child: BlocConsumer<RegisterDoctorCubit,RegisterDoctorState>(
         listener: (context,state){},
         builder: (context,state){
           return Form(
@@ -40,7 +34,7 @@ class RegisterScreen extends StatelessWidget {
                 elevation: 0,
               ),
               body: ModalProgressHUD(
-                inAsyncCall: RegisterCubit.get(context).showSpinner,
+                inAsyncCall: showSpinner,
                 child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -49,11 +43,19 @@ class RegisterScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:[
-                          const Text('Sign UP',style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold
-                          ),),
+                          Row(
+                            children: [
+                              const Text('Add Doctor',style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold
+                              ),),
+                              Spacer(),
+                              IconButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, icon: Icon(Icons.arrow_forward))
+                            ],
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -177,37 +179,37 @@ class RegisterScreen extends StatelessWidget {
                               value = _phoneEmailController.text;
                             },
                           ),
-                          Row(
-                            children: [
-                              Text('Gender :'),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: DropdownButton<String>(
-                                  value: _gender,
-                                  //icon: const Icon(Icons.arrow_downward),
-                                  //elevation: 16,
-                                  style: const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    // setState(() {
-                                    //   _gender == value!;
-                                    // });
-                                  },
-                                  items: <String>['male','female'].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),),
-                              )
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     Text('Gender :'),
+                          //     SizedBox(
+                          //       width: 20,
+                          //     ),
+                          //     Expanded(
+                          //       child: DropdownButton<String>(
+                          //         value: _gender,
+                          //         //icon: const Icon(Icons.arrow_downward),
+                          //         //elevation: 16,
+                          //         style: const TextStyle(color: Colors.deepPurple),
+                          //         underline: Container(
+                          //           height: 2,
+                          //           color: Colors.deepPurpleAccent,
+                          //         ),
+                          //         onChanged: (String? value) {
+                          //           // This is called when the user selects an item.
+                          //           // setState(() {
+                          //           //   _gender == value!;
+                          //           // });
+                          //         },
+                          //         items: <String>['male','female'].map<DropdownMenuItem<String>>((String value) {
+                          //           return DropdownMenuItem<String>(
+                          //             value: value,
+                          //             child: Text(value),
+                          //           );
+                          //         }).toList(),),
+                          //     )
+                          //   ],
+                          // ),
                           SizedBox(
                             height: 20,
                           ),
@@ -220,13 +222,10 @@ class RegisterScreen extends StatelessWidget {
                               onPressed: ()async{
                                 //print(email);
                                 //print(password);
-                                RegisterCubit.get(context).playSpinner();
 
                                 if(_formKey.currentState!.validate()){
 
-
-
-                                  RegisterCubit.get(context).userRegister(
+                                  RegisterDoctorCubit.get(context).RegisterDoctor(
                                       name: _nameTextController.text,
                                       email: _EmailTextController.text,
                                       password: _passwordController.text,
@@ -266,8 +265,7 @@ class RegisterScreen extends StatelessWidget {
                                   //   print(error);
                                   // }
 
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LayoutScreen()));
-                                  RegisterCubit.get(context).showSpinner;
+                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>SuccessAddDoctor()));
                                   // setState((){
                                   //   showSpinner=false;
                                   // });
@@ -287,7 +285,7 @@ class RegisterScreen extends StatelessWidget {
                                 // }
 
                               },
-                              child: const Text('Sign Up',style: TextStyle(
+                              child: const Text('Add Doctor',style: TextStyle(
                                   color: Colors.white
                               ),),
                             ),

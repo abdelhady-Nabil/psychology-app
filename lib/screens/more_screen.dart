@@ -17,11 +17,11 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      var userModel = PsychologyCubit.get(context).model;
-    //userModel.userId=uid;
+    userModel.userId=uid;
     return BlocConsumer<PsychologyCubit,PsychologyState>(
       listener: (context,state){},
       builder: (context,state){
-         //userModel?.userId=uid;
+         userModel.userId=uid;
         return SafeArea(
           child: Scaffold(
             backgroundColor: Colors.grey[200],
@@ -116,7 +116,7 @@ class MoreScreen extends StatelessWidget {
                                   //FirebaseAuth.instance.signOut();
                                   //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
                                   //print('log out');
-                                  print('${userModel?.userId}');
+                                  print('${userModel.userId}');
                                 },
                               ),
                             ),

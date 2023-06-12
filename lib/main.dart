@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'admin/admin_home_screen.dart';
 import 'doctor/doctor_home.dart';
 
 void main()async{
@@ -37,17 +38,19 @@ void main()async{
 
   uid =CacheHelper.getData(key:'uid');
 
-  if(uid != null){
-    widget = LayoutScreen();
-  }else{
-    widget = LoginScreen();
-  }
+  // if(uid != null){
+  //   widget = LayoutScreen();
+  // }else{
+  //   widget = LoginScreen();
+  // }
+  widget = LayoutScreen();
+
   initializeDateFormatting()
       .then((_) =>runApp(MultiBlocProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
       BlocProvider(
-          create:(BuildContext context)=>PsychologyCubit()..getUserData()
+          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctors()
       ),
     ],
     child: MyApp(
