@@ -41,7 +41,7 @@ class RegisterCubit extends Cubit<RegisterState>{
         phone: phone,
         password: password
       );
-          emit(RegisterSuccessState());
+      emit(RegisterSuccessState());
     }).catchError((error){
       emit(RegisterErrorState());
     });

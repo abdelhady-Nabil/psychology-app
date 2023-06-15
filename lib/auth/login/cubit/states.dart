@@ -8,3 +8,14 @@ class LoginSuccessState extends LoginState{
 }
 class LoginErrorState extends LoginState{}
 
+
+
+
+class LoginDoctorInitialState extends LoginState{}
+class LoginDoctorLoadingState extends LoginState{}
+class LoginDoctorSuccessState extends LoginState{
+  final String uid;
+  LoginDoctorSuccessState(this.uid);
+}
+class LoginDoctorErrorState extends LoginState{}
+

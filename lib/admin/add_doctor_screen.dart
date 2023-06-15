@@ -6,6 +6,7 @@ import 'package:psychology_app/admin/cubit/cubit.dart';
 import 'package:psychology_app/admin/succes_add_doctor.dart';
 
 import '../widget/constant.dart';
+import 'admin_home_screen.dart';
 import 'cubit/states.dart';
 class AddDoctorScreen extends StatelessWidget {
    AddDoctorScreen({Key? key}) : super(key: key);
@@ -23,7 +24,34 @@ class AddDoctorScreen extends StatelessWidget {
     return  BlocProvider(
       create: (BuildContext context)=>RegisterDoctorCubit(),
       child: BlocConsumer<RegisterDoctorCubit,RegisterDoctorState>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(state is CreateDoctorSuccessState){
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>SuccessAddDoctor()));
+          }
+          if(state is RegisterDoctorErrorState){
+            showModalBottomSheet(context: context, builder: (context){
+              return Container(
+                height: 300,
+                color: Colors.red,
+                child: Center(
+                  child: Column(
+                    children: [
+                      TextButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminHomeScreen()));
+                      }, child:Column(
+                        children: [
+                          Text('doctor is register before',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                          Text('back',style: TextStyle(color: Colors.black),),
+                        ],
+                      )),
+                    ],
+                  ),
+                ),
+              );
+            }
+            );
+          }
+        },
         builder: (context,state){
           return Form(
             key: _formKey,
@@ -231,6 +259,8 @@ class AddDoctorScreen extends StatelessWidget {
                                       password: _passwordController.text,
                                       phone: _phoneEmailController.text
                                   );
+                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>SuccessAddDoctor()));
+
 
                                   // setState((){
                                   //   showSpinner=true;
@@ -265,7 +295,6 @@ class AddDoctorScreen extends StatelessWidget {
                                   //   print(error);
                                   // }
 
-                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>SuccessAddDoctor()));
                                   // setState((){
                                   //   showSpinner=false;
                                   // });

@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/screens/layout/layout_screen.dart';
+import 'package:psychology_app/shared/cache_helper.dart';
 import 'package:psychology_app/user_provider.dart';
 import 'package:psychology_app/widget/constant.dart';
 
@@ -13,15 +15,14 @@ import '../auth/login/login_screen.dart';
 import '../services/firebase_services.dart';
 
 class MoreScreen extends StatelessWidget {
-  const MoreScreen({Key? key}) : super(key: key);
+   MoreScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-     var userModel = PsychologyCubit.get(context).model;
-    userModel.userId=uid;
     return BlocConsumer<PsychologyCubit,PsychologyState>(
       listener: (context,state){},
       builder: (context,state){
-         userModel.userId=uid;
+       var userModel = PsychologyCubit.get(context).model;
+        userModel.userId=uid;
         return SafeArea(
           child: Scaffold(
             backgroundColor: Colors.grey[200],
@@ -112,11 +113,7 @@ class MoreScreen extends StatelessWidget {
                                   ],
                                 ),
                                 onPressed: (){
-                                  //_auth.signOut();
-                                  //FirebaseAuth.instance.signOut();
-                                  //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
-                                  //print('log out');
-                                  print('${userModel.userId}');
+                                  print('${userModel.name}');
                                 },
                               ),
                             ),
@@ -143,10 +140,7 @@ class MoreScreen extends StatelessWidget {
                                   ],
                                 ),
                                 onPressed: (){
-                                  //_auth.signOut();
-                                  FirebaseAuth.instance.signOut();
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
-                                  print('log out');
+                                  print(userModel.phone);
                                 },
                               ),
                             ),
@@ -173,10 +167,7 @@ class MoreScreen extends StatelessWidget {
                                   ],
                                 ),
                                 onPressed: (){
-                                  //_auth.signOut();
-                                  FirebaseAuth.instance.signOut();
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
-                                  print('log out');
+                                 print(userModel.email);
                                 },
                               ),
                             ),
@@ -202,11 +193,8 @@ class MoreScreen extends StatelessWidget {
                                     Text('**********',style: TextStyle(fontSize: 18),),
                                   ],
                                 ),
-                                onPressed: (){
-                                  //_auth.signOut();
-                                  FirebaseAuth.instance.signOut();
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
-                                  print('log out');
+                                onPressed: ()async{
+                                  print(userModel.password);
                                 },
                               ),
                             ),
@@ -235,8 +223,10 @@ class MoreScreen extends StatelessWidget {
                                 onPressed: (){
                                   //_auth.signOut();
                                   FirebaseAuth.instance.signOut();
-                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
+                                  PsychologyCubit.get(context).signOut(context);
                                   print('log out');
+                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
+                                  //print('log out');
                                 },
                               ),
                             ),

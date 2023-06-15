@@ -81,6 +81,7 @@ class AdminHomeScreen extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: (){
+                    PsychologyCubit.get(context).signOut(context);
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginScreen()), (route) => false);
                   },
                   title: Text('log out'),

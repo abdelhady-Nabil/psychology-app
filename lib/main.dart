@@ -21,11 +21,12 @@ import 'package:psychology_app/user_provider.dart';
 import 'package:psychology_app/widget/constant.dart';
 import '../widget/custom_item.dart';
 import 'package:flutter/material.dart';
-import 'package:booking_calendar/booking_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'admin/admin_home_screen.dart';
+import 'admin/admin_login.dart';
 import 'doctor/doctor_home.dart';
+import 'doctor/login_doctor.dart';
 
 void main()async{
   Bloc.observer = const SimpleBlocObserver();
@@ -33,24 +34,23 @@ void main()async{
   await Firebase.initializeApp();
   await CacheHelper.init();
 
-
   Widget widget;
 
-  uid =CacheHelper.getData(key:'uid');
+  uid=CacheHelper.getData(key:'userId');
+  //uid=CacheHelper.getData(key:'userId');
+  if(uid != null){
+    widget = LayoutScreen();
+  }else{
+    widget = LoginScreen();
+  }
 
-  // if(uid != null){
-  //   widget = LayoutScreen();
-  // }else{
-  //   widget = LoginScreen();
-  // }
-  widget = LayoutScreen();
-
+  //widget = DoctorLogin();
   initializeDateFormatting()
-      .then((_) =>runApp(MultiBlocProvider(
+      .then((_) =>runApp(
+      MultiBlocProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => UserProvider()),
       BlocProvider(
-          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctors()
+          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctorData()..getDoctors()
       ),
     ],
     child: MyApp(

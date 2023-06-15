@@ -7,8 +7,12 @@ import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/screens/layout/layout_screen.dart';
 import 'package:psychology_app/screens/chat_doctor/chat_details_screen.dart';
-class ChatDoctorScreen extends StatelessWidget {
-  const ChatDoctorScreen({Key? key}) : super(key: key);
+
+import '../../doctor/doctor_home.dart';
+import 'chat_user_details_screen.dart';
+class ChatUserScreen extends StatelessWidget {
+  const ChatUserScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PsychologyCubit,PsychologyState>(
@@ -20,7 +24,7 @@ class ChatDoctorScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
@@ -32,7 +36,7 @@ class ChatDoctorScreen extends StatelessWidget {
                       IconButton(onPressed: (){
                         Navigator.push(context,
                             MaterialPageRoute(
-                                builder: (context)=>LayoutScreen()));
+                                builder: (context)=>DoctorHomeScreen()));
                       }, icon: Icon(Icons.arrow_forward))
 
                     ],
@@ -43,16 +47,16 @@ class ChatDoctorScreen extends StatelessWidget {
 
                   Expanded(
                     child: AnimatedConditionalBuilder(
-                      condition: PsychologyCubit.get(context).doctors.length>0,
+                      condition: PsychologyCubit.get(context).users.length>0,
                       builder: (context)=> ListView.separated(
                           physics: BouncingScrollPhysics(),
-                          itemBuilder: (context,index)=>buildChatItem(context,PsychologyCubit.get(context).doctors[index]),
+                          itemBuilder: (context,index)=>buildChatItem(context,PsychologyCubit.get(context).users[index]),
                           separatorBuilder:(context,index)=> Container(
                             width: double.infinity,
                             height: 1,
                             color: Colors.grey,
                           ),
-                          itemCount:PsychologyCubit.get(context).doctors.length
+                          itemCount:PsychologyCubit.get(context).users.length
                       ),
                       fallback: (context)=>Center(child: CircularProgressIndicator(),),
                     ),
@@ -68,9 +72,9 @@ class ChatDoctorScreen extends StatelessWidget {
     );
   }
 
-  Widget buildChatItem(context,DoctorModel model)=> InkWell(
+  Widget buildChatItem(context,UserModel model)=> InkWell(
     onTap: (){
-      Navigator.push(context,MaterialPageRoute(builder: (context)=>ChatDetailsScreen(model: model)));
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>  ChatUserDetailsScreen(model: model)));
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 20.0,bottom: 20),

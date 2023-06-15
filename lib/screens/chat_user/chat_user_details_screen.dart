@@ -9,24 +9,19 @@ import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/widget/constant.dart';
-class ChatDetailsScreen extends StatelessWidget {
+class ChatUserDetailsScreen extends StatelessWidget {
 
-
-  late DoctorModel model ;
-  ChatDetailsScreen({super.key, required this.model});
-
+  late UserModel model ;
+  ChatUserDetailsScreen({super.key, required this.model});
   final messageTextController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
     return Builder( //acsess on message befor consumer start
       builder: (BuildContext context){
 
-        //PsychologyCubit psychologyCubit = PsychologyCubit();
-        PsychologyCubit.get(context).getDoctors();
         PsychologyCubit.get(context).getMessages(
-            receiverId: model.doctorId
+            receiverId: model.userId
         );
 
         return BlocConsumer<PsychologyCubit,PsychologyState>(
@@ -62,24 +57,24 @@ class ChatDetailsScreen extends StatelessWidget {
                 child: Column(
 
                   children: [
-                   Expanded(
-                     child: ListView.separated(
-                         itemBuilder: (context,index){
-                           var message = PsychologyCubit.get(context).messages[index];
+                    Expanded(
+                      child: ListView.separated(
+                          itemBuilder: (context,index){
+                            var message = PsychologyCubit.get(context).messages[index];
 
-                           if(PsychologyCubit.get(context).model.userId == message.senderId){
-                             return buildMyMessage(message);
-                           }else{
-                             return buildMessage(message);
-                           }
+                            if(PsychologyCubit.get(context).model.userId == message.senderId){
+                              return buildMyMessage(message);
+                            }else{
+                              return buildMessage(message);
+                            }
 
-                         },
-                         separatorBuilder: (context,state)=>SizedBox(
-                           height: 15,
-                         ),
-                         itemCount: PsychologyCubit.get(context).messages.length
-                     ),
-                   ),
+                          },
+                          separatorBuilder: (context,state)=>SizedBox(
+                            height: 15,
+                          ),
+                          itemCount: PsychologyCubit.get(context).messages.length
+                      ),
+                    ),
                     //Spacer(),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +101,7 @@ class ChatDetailsScreen extends StatelessWidget {
                             onPressed: (){
                               //messageTextController.clear();
                               PsychologyCubit.get(context).sendMessage(
-                                  receiverId: model.doctorId,
+                                  receiverId: model.userId,
                                   dateTime: DateTime.now().toString(),
                                   text: messageTextController.text
                               );

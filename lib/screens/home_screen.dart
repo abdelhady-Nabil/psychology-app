@@ -17,51 +17,10 @@ import '../widget/custom_item.dart';
 import '../widget/custom_text.dart';
 import 'layout/cubit/states.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+   HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final _auth = FirebaseAuth.instance;
-  late User signedInUser;
   List <QuestionModel> questionList = getQuestion();
-  int index = 4;
-  List<Widget>screens=[
-    ChatScreen(),
-    TimeScreen(),
-    MeasureScreen(),
-    MoreScreen(),
-  ];
-
-
-  void getCurrentUser(){
-
-    try{
-      final user = _auth.currentUser;
-      if(user != null){
-        signedInUser= user;
-        print(signedInUser.email);
-      }
-    }
-    catch(error){
-      print(error);
-
-    }
-
-
-
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCurrentUser();
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PsychologyCubit,PsychologyState>(
@@ -95,7 +54,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontSize: 20,
                           color: PrimaryColor,
                         ),
-                        const Icon(Icons.add_alert,color: Colors.deepPurpleAccent,),
+                         IconButton(icon:Icon(Icons.logout,color: Colors.deepPurpleAccent),onPressed:(){
+                           //print(model.userId);
+                           PsychologyCubit.get(context).signOut(context);
+                           Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginScreen()));
+                           
+
+                         }),
 
                       ],
                     ),
@@ -461,7 +426,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(20)
                       ),
                       child: TextButton(onPressed: (){
-                        Navigator.push(context,MaterialPageRoute(builder: (context)=>BookingScreen()));
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=>BookingScreen(name:model.name,doctorid: model.doctorId,)));
                       }, child:Text('احجز الان',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)),
                     ),
 
@@ -492,5 +457,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

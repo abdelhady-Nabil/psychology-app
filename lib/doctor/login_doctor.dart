@@ -1,104 +1,95 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:psychology_app/auth/login/login_screen.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
-import 'package:psychology_app/screens/layout/layout_screen.dart';
 
-import '../../admin/admin_login.dart';
-import '../../doctor/login_doctor.dart';
-import '../../shared/cache_helper.dart';
-import '../../widget/constant.dart';
-import '../register/register_screen.dart';
-import 'cubit/cubit.dart';
-import 'cubit/states.dart';
-
-
-class LoginScreen extends StatelessWidget {
-   LoginScreen({Key? key}) : super(key: key);
+import '../auth/login/cubit/cubit.dart';
+import '../auth/login/cubit/states.dart';
+import '../shared/cache_helper.dart';
+import '../widget/constant.dart';
+import 'doctor_home.dart';
+class DoctorLogin extends StatelessWidget {
+  DoctorLogin({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController  EmailTextController = TextEditingController();
-  final TextEditingController  passwordController = TextEditingController();
-
-
-   @override
+  final TextEditingController  _EmailTextController = TextEditingController();
+  final TextEditingController  _passwordController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-
     return Form(
       key: _formKey,
       child: BlocProvider(
         create: (BuildContext context)=>LoginCubit(),
         child: BlocConsumer<LoginCubit,LoginState>(
           listener: (context,state ){
-            //var model = PsychologyCubit.get(context).model;
-            if(state is LoginSuccessState){
-              //PsychologyCubit.get(context).model;
-              PsychologyCubit.get(context).getUserData();
+            //late var doctorModel = PsychologyCubit.get(context).doctorModel;
+            if(state is LoginDoctorSuccessState){
+              PsychologyCubit.get(context).getDoctorData();
               CacheHelper.saveData(
                   key: 'userId',
                   value: state.uid
               ).then((value)async{
-                uid =state.uid;
+                uid = state.uid;
                 print('hereeeeeee');
                 print(uid);
-                PsychologyCubit.get(context).getUserData();
+                PsychologyCubit.get(context).getDoctorData();
+               await FirebaseFirestore.instance.collection('doctors').doc(uid).snapshots().forEach((element) {
+                 if(element.data()?['emil'] == _EmailTextController.text && element.data()?['password']==_passwordController.text){
+                   print('i doctor');
+                   PsychologyCubit.get(context).getDoctorData();
 
-                await FirebaseFirestore.instance.collection('users').doc(uid).snapshots().forEach((element) {
-                  if(element.data()?['emil'] == EmailTextController.text && element.data()?['password']==passwordController.text){
-                    print('i user');
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
-                  }else{
-                    showModalBottomSheet(context: context, builder: (context){
-                      return Container(
-                        height: 300,
-                        color: Colors.red,
-                        child: Center(
-                          child: Column(
-                            children: [
-                              TextButton(onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                              }, child:Column(
-                                children: [
-                                  Text('Email or Password isnot correct',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
-                                  Text('back to login',style: TextStyle(color: Colors.black),),
-                                ],
-                              )),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                    );
-                  }
-                });
-
+                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>DoctorHomeScreen()));
+                 }else{
+                   showModalBottomSheet(context: context, builder: (context){
+                     return Container(
+                       height: 300,
+                       color: Colors.red,
+                       child: Center(
+                         child: Column(
+                           children: [
+                             TextButton(onPressed: (){
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                             }, child:Column(
+                               children: [
+                                 Text('Email or Password isnot correct',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                 Text('back to login',style: TextStyle(color: Colors.black),),
+                               ],
+                             )),
+                           ],
+                         ),
+                       ),
+                     );
+                   }
+                   );
+                 }
+               });
               }).catchError((error){});
             }
-            if(state is LoginErrorState){
-             showModalBottomSheet(context: context, builder: (context){
-               return Container(
-                 height: 300,
-                 color: Colors.red,
-                 child: Center(
-                   child: Column(
-                     children: [
-                       TextButton(onPressed: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-                       }, child:Column(
-                         children: [
-                           Text('Email or Password isnot correct',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
-                           Text('back to login',style: TextStyle(color: Colors.black),),
-                         ],
-                       )),
-                     ],
-                   ),
-                 ),
-               );
-             }
-             );
+            if(state is LoginDoctorErrorState){
+              showModalBottomSheet(context: context, builder: (context){
+                return Container(
+                  height: 300,
+                  color: Colors.red,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        TextButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                        }, child:Column(
+                          children: [
+                            Text('Email or Password isnot correct',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                            Text('back to login',style: TextStyle(color: Colors.black),),
+                          ],
+                        )),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              );
             }
           },
           builder: (context,state){
@@ -117,9 +108,9 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[
-                        const Text('Login',style: TextStyle(
+                        const Text('Login To Doctor Account',style: TextStyle(
                             fontSize: 30,
-                            color: Colors.black,
+                            color: PrimaryColor,
                             fontWeight: FontWeight.bold
                         ),),
                         const SizedBox(
@@ -139,7 +130,7 @@ class LoginScreen extends StatelessWidget {
 
                           ),
                           cursorColor: PrimaryColor,
-                          controller:EmailTextController ,
+                          controller:_EmailTextController ,
                           validator: (value){
                             if(value!.isEmpty){
                               return "Enter your Email";
@@ -151,7 +142,7 @@ class LoginScreen extends StatelessWidget {
                             return null;
                           },
                           onChanged: (value){
-                            value = EmailTextController.text;
+                            value = _EmailTextController.text;
                           },
                         ),
                         const SizedBox(
@@ -173,7 +164,7 @@ class LoginScreen extends StatelessWidget {
 
                           ),
                           cursorColor: PrimaryColor,
-                          controller:passwordController ,
+                          controller:_passwordController ,
                           validator: (value){
                             if(value!.isEmpty){
                               return "Enter your Email";
@@ -181,7 +172,7 @@ class LoginScreen extends StatelessWidget {
                           },
 
                           onChanged: (value){
-                            value = passwordController.text;
+                            value = _passwordController.text;
                           },
                         ),
                         const SizedBox(
@@ -204,15 +195,39 @@ class LoginScreen extends StatelessWidget {
                           color: PrimaryColor,
                           child: TextButton(
                             onPressed: ()async{
-                              LoginCubit.get(context).playSpinner();
-
                               if(_formKey.currentState!.validate()){
-                                LoginCubit.get(context).userLogin(
-                                    email: EmailTextController.text,
-                                    password: passwordController.text
+                                showDialog(
+                                    context: context,
+                                    builder: (context){
+                                      return AlertDialog(
+                                        title: Center(child: CircularProgressIndicator(),),
+                                      );
+                                    });
+                                LoginCubit.get(context).doctorLogin(
+                                    email: _EmailTextController.text,
+                                    password: _passwordController.text
                                 );
+                                print(uid);
+                                // await FirebaseFirestore.instance.collection('doctors').doc(uid).snapshots().forEach((element) {
+                                //   if(element.data()?['emil'] == _EmailTextController.text && element.data()?['password']==_passwordController.text){
+                                //     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>DoctorHomeScreen()));
+                                //   }
+                                // }).catchError((e){
+                                //   showDialog(
+                                //       context: context,
+                                //       builder: (context){
+                                //         return AlertDialog(
+                                //           title: Text('error Message'),
+                                //           content: Text(e.toString()),
+                                //         );
+                                //       });
+                                // });
+                                // LoginCubit.get(context).userLogin(
+                                //     email: _EmailTextController.text,
+                                //     password: _passwordController.text
+                                // );
                               }
-                              LoginCubit.get(context).showSpinner;
+
                               // if(_formKey.currentState!.validate()){
                               //   setState((){
                               //     showSpinner=true;
@@ -247,7 +262,7 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              child: const Text('Dont have ana account ?',style: TextStyle(
+                              child: const Text('Not Doctor ?',style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
 
@@ -255,59 +270,15 @@ class LoginScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                               },
-                              child: const Text('Register now',style: TextStyle(
+                              child: const Text('back to Login as user',style: TextStyle(
                                   color: PrimaryColor
                               ),),
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: const Text('Are you Admin ?',style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-
-                              ),),
-                            ),
-                            TextButton(
-                              onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
-                              },
-                              child: const Text('Login as Admin now',style: TextStyle(
-                                  color: PrimaryColor
-                              ),),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: const Text('Are you doctor ?',style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-
-                              ),),
-                            ),
-                            TextButton(
-                              onPressed: (){
-                                PsychologyCubit.get(context).getUsers();
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>DoctorLogin()));
-                              },
-                              child: const Text('Login as doctor now',style: TextStyle(
-                                  color: PrimaryColor
-                              ),),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
