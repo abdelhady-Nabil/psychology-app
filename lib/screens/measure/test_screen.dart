@@ -27,6 +27,8 @@ class _TestScreenState extends State<TestScreen> {
   int score = 0;
   Answer? selectedAnswer;
 
+  double startPercent = 0.1;
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +83,10 @@ class _TestScreenState extends State<TestScreen> {
                     animation: true,
                     lineHeight: 20.0,
                     animationDuration: 500,
-                    percent: ((currentQuestionIndex+1)/10)/(endQuestionIndex/10),
+                    percent: startPercent,
                     barRadius: Radius.circular(20),
                     progressColor: PrimaryColor,
                     backgroundColor: Colors.grey[400],
-                    
-
-
 
                   ),
                   // Text('السؤال ${currentQuestionIndex+1} / ${endQuestionIndex}',style: const TextStyle(
@@ -151,6 +150,7 @@ class _TestScreenState extends State<TestScreen> {
           onPrimary: isSelected ? Colors.white : Colors.black,
         ),
         onPressed: () {
+          startPercent+=0.1;
           if (selectedAnswer == null) {
             if (answer.isCorrect) {
               score+=10;

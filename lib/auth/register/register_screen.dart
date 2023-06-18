@@ -46,11 +46,11 @@ class RegisterScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: SingleChildScrollView(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:[
-                          const Text('Sign UP',style: TextStyle(
-                              fontSize: 30,
+                          const Text('انشاء حساب جديد',style: TextStyle(
+                              fontSize: 25,
                               color: Colors.black,
                               fontWeight: FontWeight.bold
                           ),),
@@ -59,7 +59,7 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           TextFormField(
                             decoration: const InputDecoration(
-                                label:Text('Enter your Name',style: TextStyle(color: PrimaryColor),),
+                                label:Text('ادخل الاسم',style: TextStyle(color: PrimaryColor),),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: PrimaryColor)
                                 ),
@@ -74,7 +74,7 @@ class RegisterScreen extends StatelessWidget {
                             controller:_nameTextController ,
                             validator: (value){
                               if(value!.isEmpty){
-                                return "Enter your Name";
+                                return "ادخل الاسم";
                               }
                               return null;
                             },
@@ -87,7 +87,7 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           TextFormField(
                             decoration: const InputDecoration(
-                                label:Text('Enter your Email',style: TextStyle(color: PrimaryColor),),
+                                label:Text('ادخل الايميل',style: TextStyle(color: PrimaryColor),),
                                 enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: PrimaryColor)
                                 ),
@@ -102,11 +102,11 @@ class RegisterScreen extends StatelessWidget {
                             controller:_EmailTextController ,
                             validator: (value){
                               if(value!.isEmpty){
-                                return "Enter your Email";
+                                return "ادخل الايميل";
                               }
                               final bool isValid = EmailValidator.validate(value);
                               if(!isValid){
-                                return "Invalid Email Address";
+                                return "ادخلت ايميل غلط ";
                               }
                               return null;
                             },
@@ -120,7 +120,7 @@ class RegisterScreen extends StatelessWidget {
                           TextFormField(
                             obscureText: true,
                             decoration: const InputDecoration(
-                              label:Text('Enter your Password',style: TextStyle(color: PrimaryColor),),
+                              label:Text('ادخل الرقم السري',style: TextStyle(color: PrimaryColor),),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: PrimaryColor)
                               ),
@@ -136,7 +136,7 @@ class RegisterScreen extends StatelessWidget {
                             controller:_passwordController ,
                             validator: (value){
                               if(value!.isEmpty){
-                                return "Enter your password";
+                                return "ادخل الرقم السري";
                               }
                             },
 
@@ -149,7 +149,7 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           TextFormField(
                             decoration: const InputDecoration(
-                              label:Text('Enter your phone',style: TextStyle(color: PrimaryColor),),
+                              label:Text('ادخل رقم التليفون ',style: TextStyle(color: PrimaryColor),),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: PrimaryColor)
                               ),
@@ -166,47 +166,16 @@ class RegisterScreen extends StatelessWidget {
                             controller:_phoneEmailController ,
                             validator: (value){
                               if(value!.isEmpty){
-                                return "Enter your phone";
+                                return "ادخل رقم التليفون";
                               }
                               if(value.length < 11){
-                                return "Incorrect phone Number";
+                                return "ادخل رقم تليفون غلط";
                               }
                               return null;
                             },
                             onChanged: (value){
                               value = _phoneEmailController.text;
                             },
-                          ),
-                          Row(
-                            children: [
-                              Text('Gender :'),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: DropdownButton<String>(
-                                  value: _gender,
-                                  //icon: const Icon(Icons.arrow_downward),
-                                  //elevation: 16,
-                                  style: const TextStyle(color: Colors.deepPurple),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  onChanged: (String? value) {
-                                    // This is called when the user selects an item.
-                                    // setState(() {
-                                    //   _gender == value!;
-                                    // });
-                                  },
-                                  items: <String>['male','female'].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),),
-                              )
-                            ],
                           ),
                           SizedBox(
                             height: 20,
@@ -287,7 +256,7 @@ class RegisterScreen extends StatelessWidget {
                                 // }
 
                               },
-                              child: const Text('Sign Up',style: TextStyle(
+                              child: const Text('انشاء حساب جديد',style: TextStyle(
                                   color: Colors.white
                               ),),
                             ),

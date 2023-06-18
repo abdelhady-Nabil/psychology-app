@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:psychology_app/screens/layout/layout_screen.dart';
+import 'package:psychology_app/screens/search_screen.dart';
 import 'package:psychology_app/widget/custom_text.dart';
 
 import '../../widget/constant.dart';
@@ -54,7 +56,7 @@ class _ReasultScreenState extends State<ReasultScreen> {
                       child: IconButton(
                         icon: const Icon(Icons.arrow_forward),
                         onPressed: (){
-                          Navigator.pop(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
                         },
                       ),
                     ),
@@ -85,7 +87,11 @@ class _ReasultScreenState extends State<ReasultScreen> {
                   child: Column(
                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CustomText(text: '! غير راضي عن صوره جسدك', fontSize: 20,fontWeight: FontWeight.bold),
+                      score<50?
+                      CustomText(
+                          text: '! انت غير معرض لمرض نفسي', fontSize: 20,fontWeight: FontWeight.bold) :
+                      CustomText(
+                          text: '! انت معرض لمرض نفسي', fontSize: 20,fontWeight: FontWeight.bold),
                       SizedBox(
                         height: 20,
                       ),
@@ -106,7 +112,9 @@ class _ReasultScreenState extends State<ReasultScreen> {
                 ),
                 child: Center(
                   child: TextButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                    },
                     child: Text('ناقش نتيجتك مع الاخصائي',style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,

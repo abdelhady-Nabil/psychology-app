@@ -31,63 +31,69 @@ class _LayoutScreenState extends State<LayoutScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PsychologyCubit,PsychologyState>(
-      listener: (context,state){},
-      builder: (context,state){
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: screens[index],
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: index,
-            onTap: (value){
-              if(value == 4 ){
-                PsychologyCubit.get(context).getUsers();
-              }
-              setState(() {
-                index=value;
-                screens[index];
-              });
-            },
-            type: BottomNavigationBarType.fixed,
-            unselectedItemColor: Colors.black,
-            selectedItemColor: PrimaryColor,
-            items: const [
+    return BlocProvider(
+      create: (BuildContext context)=>PsychologyCubit()..getDoctors()..getUserData()..getUsers()..getDoctorData(),
+      child: BlocConsumer<PsychologyCubit,PsychologyState>(
+        listener: (context,state){},
+        builder: (context,state){
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: screens[index],
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: index,
+              onTap: (value){
+                if(value == 4 ){
+                  PsychologyCubit.get(context).getUsers();
+                }
+                // if(value == 4 ){
+                //   PsychologyCubit.get(context).getChatDoctors();
+                // }
+                setState(() {
+                  index=value;
+                  screens[index];
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              unselectedItemColor: Colors.black,
+              selectedItemColor: PrimaryColor,
+              items: const [
 
-              BottomNavigationBarItem(
-                icon: Icon(Icons.menu),
-                label: 'المزيد',
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.bar_chart),
-                  label: 'المقاييس'
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu),
+                  label: 'المزيد',
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.bar_chart),
+                    label: 'المقاييس'
 
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.add_alert),
-                  label: 'المواعيد'
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month_outlined),
+                    label: 'الحجز'
 
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.video_call_outlined),
-                  label: 'فيديو'
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.video_call_outlined),
+                    label: 'فيديو'
 
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.chat),
-                  label: 'محادثتي'
+                ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.chat),
+                    label: 'محادثتي'
 
-              ),
+                ),
 
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'الرئيسيه'
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'الرئيسيه'
 
-              ),
-            ],
-          ),
-        );
-      },
+                ),
+              ],
+            ),
+          );
+        },
 
+      ),
     );
   }
 }

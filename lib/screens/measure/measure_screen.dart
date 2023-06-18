@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:psychology_app/screens/home_screen.dart';
+import 'package:psychology_app/screens/layout/layout_screen.dart';
 import 'package:psychology_app/screens/measure/test_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 import 'package:psychology_app/widget/custom_item.dart';
@@ -29,20 +30,25 @@ class MeasureScreen extends StatelessWidget {
                    child: Padding(
                      padding: const EdgeInsets.all(20.0),
                      child: Row(
+                       mainAxisAlignment: MainAxisAlignment.end,
                        children: [
-                         // IconButton(
-                         //   onPressed: (){
-                         //     Navigator.push(context,
-                         //         MaterialPageRoute(
-                         //             builder: (context)=>HomeScreen()));
-                         //   },
-                         //   icon: Icon(Icons.arrow_back),
-                         // ),
-                         Spacer(),
+
+
                          CustomText(
                              text: 'مقاييس التشخيص',
                              fontSize: 20,
                            color: PrimaryColor,
+                         ),
+                         SizedBox(
+                           width: 20,
+                         ),
+                         IconButton(
+                           onPressed: (){
+                             Navigator.push(context,
+                                 MaterialPageRoute(
+                                     builder: (context)=>LayoutScreen()));
+                           },
+                           icon: Icon(Icons.arrow_forward),
                          ),
                        ],
                      ),
@@ -97,13 +103,13 @@ class MeasureScreen extends StatelessWidget {
                  Row(
                    children: [
                      CustomItemList(
-                       title:'مقياس الاكتاب الحاد',
+                       title:'مقياس الاكتئاب الحاد',
                        image: 'images/5.png',
                        number: 10,
                        color: Colors.deepPurpleAccent,
                        function: (){
                          Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
-                           title:'مقياس الاكتاب الحاد',
+                           title:'مقياس الاكتئاب الحاد',
                            image: 'images/5.png',
                            number: 10,
                            color: Colors.deepPurpleAccent,

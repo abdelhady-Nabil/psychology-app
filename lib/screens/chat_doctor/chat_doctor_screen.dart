@@ -1,4 +1,5 @@
 import 'package:animated_conditional_builder/animated_conditional_builder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:psychology_app/model/doctor_model.dart';
@@ -7,9 +8,29 @@ import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/screens/layout/layout_screen.dart';
 import 'package:psychology_app/screens/chat_doctor/chat_details_screen.dart';
-class ChatDoctorScreen extends StatelessWidget {
-  const ChatDoctorScreen({Key? key}) : super(key: key);
+
+import '../../model/booking_model.dart';
+import '../../widget/constant.dart';
+class ChatDoctorScreen extends StatefulWidget {
+   ChatDoctorScreen({Key? key}) : super(key: key);
+
   @override
+  State<ChatDoctorScreen> createState() => _ChatDoctorScreenState();
+}
+
+class _ChatDoctorScreenState extends State<ChatDoctorScreen> {
+   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+   List<BookingModel> bookingList = [];
+
+   @override
+   void initState() {
+     // TODO: implement initState
+     super.initState();
+     getBookingsByUserId(uid);
+   }
+
+   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PsychologyCubit,PsychologyState>(
       listener: (context,state){},
@@ -43,18 +64,37 @@ class ChatDoctorScreen extends StatelessWidget {
 
                   Expanded(
                     child: AnimatedConditionalBuilder(
-                      condition: PsychologyCubit.get(context).doctors.length>0,
+                      condition: bookingList.length>0,
                       builder: (context)=> ListView.separated(
                           physics: BouncingScrollPhysics(),
-                          itemBuilder: (context,index)=>buildChatItem(context,PsychologyCubit.get(context).doctors[index]),
+                          itemBuilder: (context,index)=>buildChatItem(context,bookingList[index]),
                           separatorBuilder:(context,index)=> Container(
                             width: double.infinity,
                             height: 1,
                             color: Colors.grey,
                           ),
-                          itemCount:PsychologyCubit.get(context).doctors.length
+                          itemCount:bookingList.length
                       ),
-                      fallback: (context)=>Center(child: CircularProgressIndicator(),),
+                      fallback: (context)=>Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+
+                                Image.asset('images/no.png'),
+                                Text(
+                                  '! لا يوجد حجز حتي الان ',
+                                  style: TextStyle(fontSize: 20, color: PrimaryColor),
+                                ),
+                                Text(
+                                  '! احجز حتي تستطيع التحدث مع طبيب ',
+                                  style: TextStyle(fontSize: 20, color: PrimaryColor),
+                                ),
+                                Spacer(),
+                              ],
+                            )),
+                      ),
                     ),
                   ),
 
@@ -68,7 +108,7 @@ class ChatDoctorScreen extends StatelessWidget {
     );
   }
 
-  Widget buildChatItem(context,DoctorModel model)=> InkWell(
+  Widget buildChatItem(context,BookingModel model)=> InkWell(
     onTap: (){
       Navigator.push(context,MaterialPageRoute(builder: (context)=>ChatDetailsScreen(model: model)));
     },
@@ -83,9 +123,39 @@ class ChatDoctorScreen extends StatelessWidget {
           SizedBox(
             width: 20,
           ),
-          Text('${model.name}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          Text('Dr. ${model.doctorName}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
         ],
       ),
     ),
   );
+
+   Future<void> getBookingsByUserId(String userId) async {
+     try {
+       final querySnapshot = await firestore
+           .collection('Bookings')
+           .where('userId', isEqualTo: userId)
+           .get();
+
+       final bookings = querySnapshot.docs.map((doc) {
+         final data = doc.data();
+         return BookingModel(
+           userName: data['userName'],
+           userId: data['userId'],
+           doctorName: data['doctorName'],
+           doctorId: data['doctorId'],
+           day: data['day'],
+           price: data['price'],
+           time: data['time'],
+         );
+       }).toList();
+
+       setState(() {
+         bookingList = bookings;
+       });
+       print('Bookings retrieved successfully.');
+     } catch (e) {
+       print('Error retrieving bookings: $e');
+       bookingList = [];
+     }
+   }
 }

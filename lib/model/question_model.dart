@@ -22,8 +22,8 @@ List<QuestionModel>getQuestion(){
         ' هل تشعر بالقلق او الانفعال الشديد؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -32,8 +32,8 @@ List<QuestionModel>getQuestion(){
         ' هل لك القدرة علي انهاء القلق او التحكم فيه؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -42,8 +42,8 @@ List<QuestionModel>getQuestion(){
         'هل تشعر بالقلق المفرط علي أشياء مختلفة؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -52,8 +52,8 @@ List<QuestionModel>getQuestion(){
         'هل تجد صعوبة في الاسترخاء؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -62,8 +62,8 @@ List<QuestionModel>getQuestion(){
         'هل انت شديد الاضطراب لدرجة صعوبة في البقاء في الهدوء؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -72,8 +72,8 @@ List<QuestionModel>getQuestion(){
         'هل انت سريع في الانفعال او الانزعاج؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -82,8 +82,8 @@ List<QuestionModel>getQuestion(){
         ' هل تشعر بالخوف كما لو أن شيئاً فظيعاً قد يحدث؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -92,8 +92,8 @@ List<QuestionModel>getQuestion(){
         'هل لك القدرة علي انهاء القلق او التحكم فيه؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -105,8 +105,8 @@ List<QuestionModel>getQuestion(){
         'هل تشعر بقلة الاهتمام أو المتعة عند القيام بأشياء؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -115,8 +115,8 @@ List<QuestionModel>getQuestion(){
         'هل تشعر بالضيق أو الاكتئاب أو اليأس؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -125,8 +125,8 @@ List<QuestionModel>getQuestion(){
         'هل تجد صعوبة في النوم أو في الاستمرار في  النوم؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -135,8 +135,8 @@ List<QuestionModel>getQuestion(){
         'هل تشعر بالتعب وقلة النشاط؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -145,8 +145,8 @@ List<QuestionModel>getQuestion(){
         'هل لديك فقدان شهية أو شراهة في الأكل؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -155,8 +155,8 @@ List<QuestionModel>getQuestion(){
         'هل تشعر بعدم الرضا عن نفسك أو أنك انسان فاشل أو بأنك خذلت نفسك أو عائلتك؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -165,8 +165,8 @@ List<QuestionModel>getQuestion(){
         'صعوبات في التركيز علي الأشياء كقراءة الجريدة أو مشاهدة التلفاز؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -175,8 +175,8 @@ List<QuestionModel>getQuestion(){
         'التحرك أو التحدث ببطء شديد بشكل ملحوظ، او العكس فمثلاً عدم القدرة علي الاستقرار لدرجة التحرك من مكان لأخر أكثر من المعتاد؟',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );
@@ -185,8 +185,8 @@ List<QuestionModel>getQuestion(){
         'التفكير بأنه من الأفضل لك الموت أو التفكير بإيذاء نفسك بأي طريقة',
         [
           Answer('أبدا', false),
-          Answer('عدة أيام', true),
-          Answer(' أكثر من نصف الأيام', false),
+          Answer('احيانا', true),
+          Answer(' اغلب الأيام', false),
           Answer('كل يوم تقريباً', false),
         ]),
   );

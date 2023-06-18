@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:psychology_app/auth/login/cubit/states.dart';
 import 'package:psychology_app/auth/login/login_screen.dart';
+import 'package:psychology_app/model/booking_model.dart';
 import 'package:psychology_app/model/message_model.dart';
 import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
@@ -101,24 +102,42 @@ class PsychologyCubit extends Cubit<PsychologyState>{
     }
   }
 
+  List<BookingModel> bookings =[];
+  
+  void getBookings() {
+    emit(GetBookingsLoadingState());
+    if (bookings.length == 0) {
+      FirebaseFirestore.instance.collection('Bookings').get()
+          .then((value) {
+        value.docs.forEach((element) {
+          bookings.add(BookingModel.fromJson(element.data()));
+        });
+        emit(GetBookingsSuccessState());
+      }).catchError((error) {
+        emit(GetBookingsErrorState());
+      });
+    }
+  }
 
-  void sendMessage({
-    required String receiverId,
+
+  void sendMessage({ //to doctor
+    required String senderId, //user_id
+    required String receiverId,//doctor_id
     required String dateTime,
     required String text,
 }){
     MessageModel modelMessage = MessageModel(
-        senderId: model.userId, //me
-        receiverId: receiverId,
+        senderId: senderId, //user
+        receiverId: receiverId, //doctor
         text: text,
         dateTime: dateTime);
 
-    //from me to another
+    //from users to doctor
     FirebaseFirestore.instance
     .collection('users')
-    .doc(model.userId)//me
+    .doc(senderId)//user
     .collection('chats')
-    .doc(receiverId) //with
+    .doc(receiverId) //doctor
     .collection('messages') //messages
     .add(modelMessage.toMap()) //add message
     .then((value){
@@ -128,12 +147,43 @@ class PsychologyCubit extends Cubit<PsychologyState>{
       emit(SendMessageErrorState());
     });
 
-    //from another to me
+    //from doctor to user
     FirebaseFirestore.instance
         .collection('doctors')
-        .doc(receiverId)//with
+        .doc(receiverId)//doctor
         .collection('chats')
-        .doc(doctorModel.doctorId) //me
+        .doc(senderId) //user
+        .collection('messages') //messages
+        .add(modelMessage.toMap()) //add message
+        .then((value){
+      emit(SendMessageSuccessState());
+    })
+        .catchError((error){
+      emit(SendMessageErrorState());
+    }
+    );
+
+  }
+
+
+  void sendMessageToUser({ //to user
+    required String senderId, //doctor_id
+    required String receiverId,//user_id
+    required String dateTime,
+    required String text,
+  }){
+    MessageModel modelMessage = MessageModel(
+        senderId: senderId, //doctor
+        receiverId: receiverId, //user
+        text: text,
+        dateTime: dateTime);
+
+    //from users to doctor
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)//user
+        .collection('chats')
+        .doc(senderId) //doctor
         .collection('messages') //messages
         .add(modelMessage.toMap()) //add message
         .then((value){
@@ -143,19 +193,38 @@ class PsychologyCubit extends Cubit<PsychologyState>{
       emit(SendMessageErrorState());
     });
 
+    //from doctor to user
+    FirebaseFirestore.instance
+        .collection('doctors')
+        .doc(senderId)//doctor
+        .collection('chats')
+        .doc(receiverId) //user
+        .collection('messages') //messages
+        .add(modelMessage.toMap()) //add message
+        .then((value){
+      emit(SendMessageSuccessState());
+    })
+        .catchError((error){
+      emit(SendMessageErrorState());
+    }
+    );
+
   }
 
   List<MessageModel> messages =[];
 
   void getMessages({
-  required String receiverId
+  required String receiverId,
+    required String senderId
+
 }) {
 
+    //get from user to doctor
     FirebaseFirestore.instance
         .collection('users')
-        .doc(model.userId)
+        .doc(senderId)
         .collection('chats')
-        .doc(receiverId)
+        .doc(receiverId) //doctors
         .collection('messages')
         .orderBy('dateTime')
         .snapshots() //return stream of query
@@ -166,25 +235,6 @@ class PsychologyCubit extends Cubit<PsychologyState>{
             messages.add(MessageModel.fromJson(element.data()));
           });
           emit(GetMessageSuccessState());
-
-    });
-
-    FirebaseFirestore.instance
-        .collection('doctors')
-        .doc(doctorModel.doctorId)
-        .collection('chats')
-        .doc(receiverId)
-        .collection('messages')
-        .orderBy('dateTime')
-        .snapshots() //return stream of query
-        .listen((event) {  //event is messages
-      messages = []; //zeros list
-      event.docs.forEach((element) {
-        messages.add(MessageModel.fromJson(element.data()));
-
-      });
-
-      emit(GetMessageSuccessState());
 
     });
 
@@ -220,5 +270,44 @@ class PsychologyCubit extends Cubit<PsychologyState>{
 
   }
 
+
+  List<DoctorModel> chatDoctors =[];
+
+  void getChatDoctors(UserModel user,DoctorModel doctor) async{
+    //get doctor if you change the collection
+
+    CollectionReference bookingsCollection =
+    FirebaseFirestore.instance.collection('Bookings');
+
+    Query bookingsQuery = bookingsCollection
+        .where('doctorId', isEqualTo: doctor.doctorId)
+        .where('userId', isEqualTo: user.userId);
+
+    QuerySnapshot querySnapshot = await bookingsQuery.get();
+    querySnapshot.docs.forEach((bookingDoc) {
+      // Access the booking data
+      var bookingData = bookingDoc.data();
+
+      if (chatDoctors.length == 0) {
+        FirebaseFirestore.instance.collection('doctors').get()
+            .then((value) {
+          value.docs.forEach((element) {
+            chatDoctors.add(DoctorModel.fromJson(element.data()));
+          });
+          print('list chat doctor success ');
+          //emit(GetAllDoctorSuccessState());
+        }).catchError((error) {
+          //emit(GetAllDoctorErrorState());
+          print('list chat doctor error ');
+        });
+      }
+
+      // Process the booking data as needed
+      print('Booking details: $bookingData');
+    });
+
+
+
+  }
 
 }

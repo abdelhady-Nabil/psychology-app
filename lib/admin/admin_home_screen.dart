@@ -20,6 +20,8 @@ class AdminHomeScreen extends StatelessWidget {
       builder: (context,state){
         var numberOfDoctor = PsychologyCubit.get(context).doctors.length;
         var numberOfPatient = PsychologyCubit.get(context).users.length;
+        var numberOfBookings = PsychologyCubit.get(context).bookings.length;
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: PrimaryColor,
@@ -71,6 +73,9 @@ class AdminHomeScreen extends StatelessWidget {
                   leading: Icon(Icons.monetization_on_outlined),
                 ),
                 ListTile(
+                  onTap: (){
+                    PsychologyCubit.get(context).getBookings();
+                  },
                   title: Text('Booking'),
                   leading: Icon(Icons.local_activity_outlined),
                 ),
@@ -154,7 +159,7 @@ class AdminHomeScreen extends StatelessWidget {
                       Expanded(
                         child: buildItem(
                           title: 'Total Booking',
-                          number: 11,
+                          number: numberOfBookings,
                           icon: Icons.account_box_outlined,
                         ),
                       ),

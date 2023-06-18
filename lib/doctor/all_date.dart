@@ -43,41 +43,60 @@ class _AllDateState extends State<AllDate> {
  Widget itemBuilder(BuildContext context,DateModel model){
 
 
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Container(
-        width: double.infinity,
-        height: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.grey[300]
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
+    return Dismissible(
+        key:  UniqueKey(), // Generate a unique key for each item
+        onDismissed: (direction){
+          deleteItem(model);
+        },
+        background: Container(
+          color: Colors.red,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.arrow_back_ios_new_outlined),
-              Spacer(),
-              Column(
-                children: [
-                  Text('${model.day}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
-                  Text('${model.time}  :  الساعه',style: TextStyle(fontSize: 12),),
-                  Text('${model.price} LE :  السعر',style: TextStyle(fontSize: 12),)
-                ],
+              Icon(Icons.delete_forever_outlined,color: Colors.white,),
+              SizedBox(
+                width: 16,
               ),
-              SizedBox(width: 20,),
-              Icon(Icons.schedule_outlined,color: PrimaryColor,),
-
-
-
 
             ],
           ),
         ),
+        child:Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            width: double.infinity,
+            height: 100,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.grey[300]
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.arrow_back_ios_new_outlined),
+                  Spacer(),
+                  Column(
+                    children: [
+                      Text('${model.day}',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15),),
+                      Text('${model.time}  :  الساعه',style: TextStyle(fontSize: 12),),
+                      Text('${model.price} LE :  السعر',style: TextStyle(fontSize: 12),)
+                    ],
+                  ),
+                  SizedBox(width: 20,),
+                  Icon(Icons.schedule_outlined,color: PrimaryColor,),
 
-      ),
+
+
+
+                ],
+              ),
+            ),
+
+          ),
+        )
     );
   }
 
@@ -108,4 +127,37 @@ class _AllDateState extends State<AllDate> {
 
 
   }
+
+  Future<void> deleteItem(DateModel model) async {
+    try {
+      // Delete the item from Firestore
+      await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(uid)
+          .collection('dateList')
+          .where('day', isEqualTo: model.day) // Use a suitable field to identify the item for deletion
+          .where('time', isEqualTo: model.time)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete();
+        });
+      });
+
+      // Remove the item from the list
+      setState(() {
+        dataList.remove(model);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Item deleted successfully')),
+      );
+    } catch (error) {
+      print('Error deleting item: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error deleting item')),
+      );
+    }
+  }
+
+
 }

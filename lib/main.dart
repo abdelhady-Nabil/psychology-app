@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +29,12 @@ import 'admin/admin_login.dart';
 import 'doctor/doctor_home.dart';
 import 'doctor/login_doctor.dart';
 
+List<CameraDescription>? cameras;
+
 void main()async{
   Bloc.observer = const SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized(); //access binding firebase
+  cameras=await availableCameras();
   await Firebase.initializeApp();
   await CacheHelper.init();
 
@@ -50,7 +54,7 @@ void main()async{
       MultiBlocProvider(
     providers: [
       BlocProvider(
-          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctorData()..getDoctors()
+          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctorData()..getDoctors()..getBookings
       ),
     ],
     child: MyApp(

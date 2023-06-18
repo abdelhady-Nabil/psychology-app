@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:psychology_app/screens/chat_screen.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/measure/measure_screen.dart';
 import 'package:psychology_app/screens/more_screen.dart';
 import 'package:psychology_app/screens/measure/test_screen.dart';
+import 'package:psychology_app/screens/search_screen.dart';
 import 'package:psychology_app/screens/time_screen.dart';
 import 'package:psychology_app/widget/constant.dart';
 
@@ -15,7 +17,9 @@ import '../model/doctor_model.dart';
 import '../model/question_model.dart';
 import '../widget/custom_item.dart';
 import '../widget/custom_text.dart';
+import 'face_detection.dart';
 import 'layout/cubit/states.dart';
+import 'measure/goal_measure.dart';
 
 class HomeScreen extends StatelessWidget {
    HomeScreen({Key? key}) : super(key: key);
@@ -30,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: Colors.white,
 
           body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(left: 20.0,right: 20,top: 20),
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -41,12 +45,16 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children:  [
                         Row(
-                          children: const [
+                          children:  [
                             Icon(Icons.question_mark_outlined,color: Colors.deepPurpleAccent,),
                             SizedBox(
                               width: 5,
                             ),
-                            Icon(Icons.shopping_cart,color: Colors.deepPurpleAccent,),
+                            IconButton(onPressed: (){
+                              Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>TimeScreen()));
+
+                            }, icon:Icon(Icons.calendar_month_outlined,color: Colors.deepPurpleAccent,), ),
+
                           ],
                         ),
                         CustomText(
@@ -67,15 +75,20 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       children: [
 
-                        Container(
-                          width: 170,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: Colors.tealAccent,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(child: Text('ما هو شعورك اليوم ؟')),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>FaceDetection()));
+                          },
+                          child: Container(
+                            width: 170,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.tealAccent,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(child: Text('ما هو شعورك اليوم ؟')),
 
+                          ),
                         ),
                         Spacer(),
                         Column(
@@ -99,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                     //banner show
                     Container(
                       width:double.infinity,
-                      height: 100,
+                      height: 150,
                       decoration: BoxDecoration(
 
                           borderRadius: BorderRadius.circular(20),
@@ -113,7 +126,76 @@ class HomeScreen extends StatelessWidget {
 
                           ]
                       ),
-                      child:Image.asset('images/help.png',fit: BoxFit.fill,),
+                      child:ImageSlideshow(
+                        width: double.infinity,
+                        height: 90,
+                        initialPage: 0,
+                        indicatorColor: PrimaryColor,
+                        indicatorBackgroundColor: Colors.grey,
+                        children: [
+                          Image.asset(
+                            'images/help.png',
+                            fit: BoxFit.fill,
+                          ),
+                          Image.asset(
+                            'images/b1.png',
+                            fit: BoxFit.cover,
+                          ),
+                          Image.asset(
+                            'images/b2.png',
+                            fit: BoxFit.cover,
+                          ),
+                          Image.asset(
+                            'images/b3.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                        ],
+                        autoPlayInterval: 3000,
+                        isLoop: true,
+                      ),
+                    ),
+
+
+                    const SizedBox(
+                      height: 40,
+                    ),
+
+                    //Search bar
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+
+                            },
+                            child: Container(
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(20)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 10,),
+                                    Icon(Icons.search,color: Colors.grey,),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text('ابحث عن طبيبك',style: TextStyle(color: Colors.grey),),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                        }, icon: Icon(Icons.person_search,color: PrimaryColor,size: 35,)),
+
+                      ],
                     ),
                     const SizedBox(
                       height: 40,
@@ -172,13 +254,12 @@ class HomeScreen extends StatelessWidget {
                             number: 8,
                             color: Colors.teal,
                             function: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context)=>TestScreen(
-                                        start: 0,
-                                        end: 8,
-                                        title: 'مقياس تقدير الذات',
-                                      )));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                                title:'مقياس تقدير الذات',
+                                image: 'images/3.png',
+                                number: 8,
+                                color: Colors.teal,
+                              )));
                             },
                           ),
                           CustomItem(
@@ -187,29 +268,27 @@ class HomeScreen extends StatelessWidget {
                             number: 9,
                             color: Colors.pink,
                             function:(){
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context)=>TestScreen(
-                                        start: 8,
-                                        end: 16,
-                                        title: 'مقياس الرضا الزواجي',
-                                      )));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                                title:'مقياس الرضا الزواجي',
+                                image: 'images/1.png',
+                                number: 9,
+                                color: Colors.pink,
+                              )));
                             },
 
                           ),
                           CustomItem(
-                            title:'مقياس الاكتاب الحاد',
+                            title:'مقياس الاكتئاب الحاد',
                             image: 'images/5.png',
                             number: 10,
                             color: Colors.deepPurpleAccent,
                             function: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context)=>TestScreen(
-                                        start: 11,
-                                        end: 15,
-                                        title: 'مقياس الاكتاب الحاد',
-                                      )));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                                title:'مقياس الاكتئاب الحاد',
+                                image: 'images/5.png',
+                                number: 10,
+                                color: Colors.deepPurpleAccent,
+                              )));
                             },
 
                           ),
@@ -219,13 +298,12 @@ class HomeScreen extends StatelessWidget {
                             number: 10,
                             color: Colors.deepOrange,
                             function: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context)=>TestScreen(
-                                        start: 16,
-                                        end: 20,
-                                        title: 'مقياس القلق الدائم',
-                                      )));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                                title:'مقياس القلق الدائم',
+                                image: 'images/4.png',
+                                number: 10,
+                                color: Colors.deepOrange,
+                              )));
                             },
 
                           ),
@@ -235,13 +313,12 @@ class HomeScreen extends StatelessWidget {
                             number: 10,
                             color: Colors.indigo,
                             function: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                      builder: (context)=>TestScreen(
-                                        start: 20,
-                                        end: 25,
-                                        title: 'مقياس الوسواس',
-                                      )));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GoalMeasure(
+                                title:'مقياس الوسواس ',
+                                image: 'images/2.png',
+                                number: 10,
+                                color: Colors.indigo,
+                              )));
                             },
 
                           ),
@@ -255,11 +332,16 @@ class HomeScreen extends StatelessWidget {
 
                     Row(
                       children:  [
-                        CustomText(
-                          text: 'عرض الكل',
-                          fontSize: 10,
-                          color: Colors.grey,
+                        TextButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                          },
+                          child: CustomText(
+                            text: 'عرض الكل',
+                            fontSize: 12,
+                            color: Colors.grey,
 
+                          ),
                         ),
                         Spacer(),
                         CustomText(
@@ -323,7 +405,7 @@ class HomeScreen extends StatelessWidget {
                       radius: 60,
                     ),
                     Text('Dr. ${model.name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                    Text('Psychologist',style: TextStyle(fontSize: 20,color: Colors.grey),),
+                    Text('طبيب نفسي',style: TextStyle(fontSize: 20,color: Colors.grey),),
                     SizedBox(
                       height: 20,
                     ),
@@ -370,7 +452,7 @@ class HomeScreen extends StatelessWidget {
 
                     Container(
                       alignment: Alignment.topLeft,
-                        child: Text('Achievement',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+                        child: Text('الانجازات',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
 
                     Container(
                       width: double.infinity,
@@ -387,7 +469,7 @@ class HomeScreen extends StatelessWidget {
                                     height: 100,
                                   ),
                                   Text('120+',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                  Text('Patient'),
+                                  Text('مريض'),
 
                                 ],
 
@@ -404,7 +486,7 @@ class HomeScreen extends StatelessWidget {
                                     height: 100,
                                   ),
                                   Text('5+',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                  Text('Exparience'),
+                                  Text('خبره'),
 
                                 ],
 
@@ -433,7 +515,7 @@ class HomeScreen extends StatelessWidget {
 
                     TextButton(onPressed: (){
                       Navigator.pop(context);
-                    }, child:Text('back',style: TextStyle(color: Colors.black),)),
+                    }, child:Text('رجوع',style: TextStyle(color: Colors.black),)),
 
                   ],
                 ),

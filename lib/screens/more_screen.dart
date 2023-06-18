@@ -7,6 +7,7 @@ import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/screens/layout/layout_screen.dart';
+import 'package:psychology_app/screens/setting_screen.dart';
 import 'package:psychology_app/shared/cache_helper.dart';
 import 'package:psychology_app/user_provider.dart';
 import 'package:psychology_app/widget/constant.dart';
@@ -80,9 +81,11 @@ class MoreScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+
                   SizedBox(
                     height: 70,
                   ),
+
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -195,6 +198,33 @@ class MoreScreen extends StatelessWidget {
                                 ),
                                 onPressed: ()async{
                                   print(userModel.password);
+                                },
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0,right: 20,left: 20),
+                            child: Container(
+                              width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[350],
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: IconButton(
+                                icon: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.manage_accounts_outlined,color: PrimaryColor,),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text('setting',style: TextStyle(fontSize: 18),),
+                                  ],
+                                ),
+                                onPressed: ()async{
+                                  print(userModel.password);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingScreen()));
                                 },
                               ),
                             ),

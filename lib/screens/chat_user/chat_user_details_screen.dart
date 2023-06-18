@@ -9,19 +9,40 @@ import 'package:psychology_app/model/user_model.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/layout/cubit/states.dart';
 import 'package:psychology_app/widget/constant.dart';
-class ChatUserDetailsScreen extends StatelessWidget {
 
-  late UserModel model ;
+import '../../model/booking_model.dart';
+class ChatUserDetailsScreen extends StatefulWidget {
+
+  late BookingModel model ;
   ChatUserDetailsScreen({super.key, required this.model});
+
+  @override
+  State<ChatUserDetailsScreen> createState() => _ChatUserDetailsScreenState();
+}
+
+class _ChatUserDetailsScreenState extends State<ChatUserDetailsScreen> {
   final messageTextController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PsychologyCubit.get(context).getUsers();
+    PsychologyCubit.get(context).getMessages(
+      receiverId: widget.model.userId,
+      senderId: widget.model.doctorId,
+    );
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Builder( //acsess on message befor consumer start
       builder: (BuildContext context){
-
+        PsychologyCubit.get(context).getUsers();
         PsychologyCubit.get(context).getMessages(
-            receiverId: model.userId
+            receiverId: widget.model.userId,
+          senderId: widget.model.doctorId
         );
 
         return BlocConsumer<PsychologyCubit,PsychologyState>(
@@ -43,7 +64,7 @@ class ChatUserDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: 20,
                     ),
-                    Text('${model.name}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                    Text('${widget.model.userName}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
                   ],
                 ),
                 actions: [
@@ -57,12 +78,16 @@ class ChatUserDetailsScreen extends StatelessWidget {
                 child: Column(
 
                   children: [
+                   // Text('${model.userId}'), //user
+                   //  Text('$uid'), //doctor
+
                     Expanded(
                       child: ListView.separated(
                           itemBuilder: (context,index){
+
                             var message = PsychologyCubit.get(context).messages[index];
 
-                            if(PsychologyCubit.get(context).model.userId == message.senderId){
+                            if( widget.model.doctorId== message.senderId){
                               return buildMyMessage(message);
                             }else{
                               return buildMessage(message);
@@ -100,8 +125,9 @@ class ChatUserDetailsScreen extends StatelessWidget {
                         TextButton(
                             onPressed: (){
                               //messageTextController.clear();
-                              PsychologyCubit.get(context).sendMessage(
-                                  receiverId: model.userId,
+                              PsychologyCubit.get(context).sendMessageToUser(
+                                senderId: widget.model.doctorId,
+                                  receiverId: widget.model.userId,
                                   dateTime: DateTime.now().toString(),
                                   text: messageTextController.text
                               );
@@ -143,6 +169,7 @@ class ChatUserDetailsScreen extends StatelessWidget {
         )
     ),
   );
+
   Widget buildMyMessage(MessageModel model)=>Align(
     alignment: AlignmentDirectional.centerEnd,
     child: Material(

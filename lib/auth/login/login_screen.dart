@@ -114,11 +114,23 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:[
-                        const Text('Login',style: TextStyle(
-                            fontSize: 30,
+                        Container(
+                          alignment: Alignment.center,
+                          width: double.infinity,
+                            height: 150,
+                            child: Image.asset('images/logo22.jpg',)),
+                        Container(
+                          alignment: Alignment.center,
+                            child: Text('طبيبك النفسي',style: TextStyle(color: PrimaryColor,fontSize: 20,fontWeight: FontWeight.bold),)),
+                        SizedBox(
+                          height: 20,
+                        ),
+
+                        const Text('تسجيل الدخول',style: TextStyle(
+                            fontSize: 25,
                             color: Colors.black,
                             fontWeight: FontWeight.bold
                         ),),
@@ -127,7 +139,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                              label:Text('Enter your Email',style: TextStyle(color: PrimaryColor),),
+                              label:Text('ادخل الايميل',style: TextStyle(color: PrimaryColor),),
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: PrimaryColor)
                               ),
@@ -142,11 +154,11 @@ class LoginScreen extends StatelessWidget {
                           controller:EmailTextController ,
                           validator: (value){
                             if(value!.isEmpty){
-                              return "Enter your Email";
+                              return "ادخل الايميل";
                             }
                             final bool isValid = EmailValidator.validate(value);
                             if(!isValid){
-                              return "Invalid Email Address";
+                              return "ادخلت ايميل غلط";
                             }
                             return null;
                           },
@@ -160,7 +172,7 @@ class LoginScreen extends StatelessWidget {
                         TextFormField(
                           obscureText: true,
                           decoration: const InputDecoration(
-                            label:Text('Enter your Password',style: TextStyle(color: PrimaryColor),),
+                            label:Text('ادخل الرقم السري',style: TextStyle(color: PrimaryColor),),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: PrimaryColor)
                             ),
@@ -176,7 +188,7 @@ class LoginScreen extends StatelessWidget {
                           controller:passwordController ,
                           validator: (value){
                             if(value!.isEmpty){
-                              return "Enter your Email";
+                              return "ادخل الرقم السري";
                             }
                           },
 
@@ -189,7 +201,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         Container(
                           alignment: Alignment.topRight,
-                          child: const Text('Forget password?',style: TextStyle(
+                          child: const Text('هل نسيت الرقم السري؟',style: TextStyle(
                             fontSize: 15,
                             color: Colors.black,
 
@@ -235,7 +247,7 @@ class LoginScreen extends StatelessWidget {
                               // }
 
                             },
-                            child: const Text('Login',style: TextStyle(
+                            child: const Text('تسجيل الدخول',style: TextStyle(
                                 color: Colors.white
                             ),),
                           ),
@@ -246,21 +258,22 @@ class LoginScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            TextButton(
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                              },
+                              child: const Text('انشاء حساب جديد',style: TextStyle(
+                                  color: PrimaryColor
+                              ),),
+                            ),
                             Container(
-                              child: const Text('Dont have ana account ?',style: TextStyle(
+                              child: const Text('ليس لديك حساب حتي الان؟ ',style: TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
 
                               ),),
                             ),
-                            TextButton(
-                              onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
-                              },
-                              child: const Text('Register now',style: TextStyle(
-                                  color: PrimaryColor
-                              ),),
-                            ),
+
                           ],
                         ),
                         const SizedBox(
@@ -270,44 +283,28 @@ class LoginScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: const Text('Are you Admin ?',style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
 
-                              ),),
-                            ),
                             TextButton(
                               onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminLogin()));
                               },
-                              child: const Text('Login as Admin now',style: TextStyle(
+                              child: const Text('تسجيل الدخول ك ادمن',style: TextStyle(
                                   color: PrimaryColor
                               ),),
                             ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: const Text('Are you doctor ?',style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-
-                              ),),
-                            ),
+                            Spacer(),
                             TextButton(
                               onPressed: (){
                                 PsychologyCubit.get(context).getUsers();
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>DoctorLogin()));
                               },
-                              child: const Text('Login as doctor now',style: TextStyle(
+                              child: const Text('تسجيل الدخول ك دكتور',style: TextStyle(
                                   color: PrimaryColor
                               ),),
                             ),
                           ],
                         ),
+
                       ],
                     ),
                   ),
