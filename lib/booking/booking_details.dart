@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:psychology_app/widget/constant.dart';
 
 import '../model/date_model.dart';
+import 'chosse_payment.dart';
 import 'confirm_booking.dart';
 
 class BookingDetails extends StatelessWidget {
@@ -140,10 +141,11 @@ class BookingDetails extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>ChosePayment()));
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ConfirmBooking(
+                        builder: (context) => ChosePayment(
                               doctorName: doctorName,
                           userName: userName,
                           time:'${model.time}' ,

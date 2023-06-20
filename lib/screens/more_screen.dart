@@ -17,6 +17,7 @@ import '../services/firebase_services.dart';
 
 class MoreScreen extends StatelessWidget {
    MoreScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PsychologyCubit,PsychologyState>(

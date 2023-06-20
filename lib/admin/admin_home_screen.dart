@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:psychology_app/admin/booking_screen.dart';
+import 'package:psychology_app/admin/earning_admin_screen.dart';
 import 'package:psychology_app/admin/patient_screen.dart';
 import 'package:psychology_app/auth/login/login_screen.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
@@ -11,10 +14,12 @@ import '../screens/layout/cubit/states.dart';
 import 'Doctors_screen.dart';
 import 'add_doctor_screen.dart';
 class AdminHomeScreen extends StatelessWidget {
-  const AdminHomeScreen({Key? key}) : super(key: key);
+   AdminHomeScreen({Key? key}) : super(key: key);
+
+
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return BlocConsumer<PsychologyCubit,PsychologyState>(
       listener: (context,state){},
       builder: (context,state){
@@ -69,12 +74,20 @@ class AdminHomeScreen extends StatelessWidget {
                   leading: Icon(Icons.sick_outlined),
                 ),
                 ListTile(
+                  onTap: (){
+                    PsychologyCubit.get(context).getTotalPrice();
+                    Navigator.push(context,MaterialPageRoute(builder: (context)=>EarningAdminScreen()));
+
+                  },
                   title: Text('Earning'),
                   leading: Icon(Icons.monetization_on_outlined),
                 ),
                 ListTile(
                   onTap: (){
                     PsychologyCubit.get(context).getBookings();
+                    Navigator.push(context,MaterialPageRoute(builder: (context)=>BookingAdminScreen()));
+
+
                   },
                   title: Text('Booking'),
                   leading: Icon(Icons.local_activity_outlined),
@@ -155,6 +168,7 @@ class AdminHomeScreen extends StatelessWidget {
                     height: 20,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
                         child: buildItem(
@@ -166,13 +180,7 @@ class AdminHomeScreen extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Expanded(
-                        child: buildItem(
-                          title: 'Total Earning',
-                          number: 10,
-                          icon: Icons.monetization_on_outlined,
-                        ),
-                      ),
+
                     ],
                   ),
 
@@ -317,5 +325,7 @@ class AdminHomeScreen extends StatelessWidget {
       ],
     );
   }
+
+
 
 }

@@ -101,7 +101,7 @@ class _TimeScreenState extends State<TimeScreen> {
         color: Colors.grey[300],
       ),
       width: double.infinity,
-      height: 170,
+      height: 200,
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
@@ -187,6 +187,24 @@ class _TimeScreenState extends State<TimeScreen> {
                       ': السعر ',
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'ساعتين',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: PrimaryColor),
+                    ),
+                    Spacer(),
+                    Text(
+                      ': مده الجلسه ',
+                      style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -219,7 +221,7 @@ class PsychologyCubit extends Cubit<PsychologyState>{
 
 }) {
 
-    //get from user to doctor
+
     FirebaseFirestore.instance
         .collection('users')
         .doc(senderId)
@@ -309,5 +311,47 @@ class PsychologyCubit extends Cubit<PsychologyState>{
 
 
   }
+
+  CollectionReference bookingsCollection = FirebaseFirestore.instance.collection('Bookings');
+
+  int totalPrice = 0;
+
+  Future<int> getTotalPrice() async {
+
+    print('getTotla price loading');
+    int totalPrice = 0;
+
+    QuerySnapshot querySnapshot = await bookingsCollection.get();
+    querySnapshot.docs.forEach((doc) {
+      Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
+      if (data != null && data.containsKey('price')) {
+        String? priceString = data['price'];
+        if (priceString != null) {
+          int price = int.tryParse(priceString) ?? 0;
+          totalPrice += price;
+        }
+      }
+    });
+
+    print('success getTotalPrice$totalPrice');
+
+    return totalPrice;
+  }
+
+
+  // File? profileImage;
+  //
+  // var picker = ImagePicker();
+  // Future<void> getImage()async{
+  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //   if(pickedFile!= null){
+  //     profileImage=File(pickedFile.path);
+  //     emit(ProfileImagePickedSuccessState());
+  //   }else{
+  //     print('no profileImage selected');
+  //     emit(ProfileImagePickedErrorState());
+  //   }
+  //
+  // }
 
 }

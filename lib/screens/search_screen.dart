@@ -151,7 +151,7 @@ class _SearchScreenState extends State<SearchScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Psychologist',
+                'طبيب نفسي',
                 style: TextStyle(fontSize: 15, color:Colors.black),
               ),
               Spacer(),

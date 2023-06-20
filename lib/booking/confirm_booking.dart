@@ -14,7 +14,8 @@ class ConfirmBooking extends StatelessWidget {
     required this.time,
     required this.day,
     required this.userId,
-    required this.doctorId
+    required this.doctorId,
+    required this.number
 
   }) : super(key: key);
 
@@ -25,6 +26,7 @@ class ConfirmBooking extends StatelessWidget {
   String day;
   String time;
   String price;
+  String number;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -39,36 +41,157 @@ class ConfirmBooking extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                pushDataToFirebase();
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
-                // print('doctor name  '+doctorName);
-                // print('doctor id  '+doctorId);
-                // print('user name  '+userName);
-                // print('user id  '+userId);
-                // print('price  '+price);
-                // print('day  '+day);
-                // print('time  '+time);
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
 
-              },
-              child: Container(
+
+
+              Container(
+                width: double.infinity,
+                  height: 100,
+                  child: Image.asset('images/vodafone2.png')),
+              Container(
+                alignment: Alignment.center,
+                  child: Text('check out ',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+              SizedBox(
+                height: 10,
+              ),
+              Text('رقم المحفظه ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
                 width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: PrimaryColor),
-                child: Center(
-                    child: Text(
-                  'تاكيد الدفع',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                )),
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('$number',style: TextStyle(fontSize: 20,color: PrimaryColor,fontWeight: FontWeight.bold),),
+                ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+
+              Text('المبلغ الكلي ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('$price',style: TextStyle(fontSize: 20,color: PrimaryColor,fontWeight: FontWeight.bold),),
+                ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+
+              Text('الرقم السري للمحفظه ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(20)
+                    ),
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText:'********'
+                          ),
+                        )
+                    ),
+                  ),
+                ),
+              ),
+
+
+              SizedBox(
+                height: 10,
+              ),
+
+              Text('OTP الرقم السري المتغير ',style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText:'********'
+                    ),
+                  )
+                ),
+              ),
+
+
+              SizedBox(
+                height: 40,
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  pushDataToFirebase();
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LayoutScreen()));
+                  // print('doctor name  '+doctorName);
+                  // print('doctor id  '+doctorId);
+                  // print('user name  '+userName);
+                  // print('user id  '+userId);
+                  // print('price  '+price);
+                  // print('day  '+day);
+                  // print('time  '+time);
+
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: PrimaryColor),
+                  child: Center(
+                      child: Text(
+                    'pay with wallet',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  )),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -29,8 +29,8 @@ class _ChatUserDetailsScreenState extends State<ChatUserDetailsScreen> {
     super.initState();
     PsychologyCubit.get(context).getUsers();
     PsychologyCubit.get(context).getMessages(
-      receiverId: widget.model.userId,
-      senderId: widget.model.doctorId,
+      receiverId: widget.model.doctorId,
+      senderId: widget.model.userId,
     );
 
   }
@@ -59,7 +59,7 @@ class _ChatUserDetailsScreenState extends State<ChatUserDetailsScreen> {
                   children: [
                     CircleAvatar(
                       radius: 25,
-                      backgroundImage: AssetImage('images/dd.png'),
+                      backgroundImage: AssetImage('images/man.png'),
                     ),
                     SizedBox(
                       width: 20,
@@ -84,9 +84,7 @@ class _ChatUserDetailsScreenState extends State<ChatUserDetailsScreen> {
                     Expanded(
                       child: ListView.separated(
                           itemBuilder: (context,index){
-
                             var message = PsychologyCubit.get(context).messages[index];
-
                             if( widget.model.doctorId== message.senderId){
                               return buildMyMessage(message);
                             }else{

@@ -32,6 +32,29 @@ class AdminLogin extends StatelessWidget {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>AdminHomeScreen()));
               }).catchError((error){});
             }
+            if(state is LoginErrorState){
+              showModalBottomSheet(context: context, builder: (context){
+                return Container(
+                  height: 300,
+                  color: Colors.red,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        TextButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                        }, child:Column(
+                          children: [
+                            Text('Email or Password isnot correct',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                            Text('back to login',style: TextStyle(color: Colors.black),),
+                          ],
+                        )),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              );
+            }
           },
           builder: (context,state){
             return Scaffold(

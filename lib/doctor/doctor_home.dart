@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:psychology_app/doctor/add_new_time.dart';
+import 'package:psychology_app/doctor/earning_screen.dart';
 import 'package:psychology_app/doctor/setting_doctor_screen.dart';
 import 'package:psychology_app/doctor/video_call.dart';
 import 'package:psychology_app/widget/constant.dart';
@@ -115,7 +116,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       PsychologyCubit.get(context).getUsers();
                       Navigator.push(context,MaterialPageRoute(builder: (context)=>VideoCall()));
                     },
-                    title: Text('video cll'),
+                    title: Text('video call'),
                     leading: Icon(Icons.video_call_outlined),
                   ),
                   ListTile(
@@ -138,6 +139,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     leading: Icon(Icons.local_activity_outlined),
                   ),
                   ListTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>EarningScreen()));
+
+                    },
                     title: Text('Earning'),
                     leading: Icon(Icons.monetization_on_outlined),
                   ),

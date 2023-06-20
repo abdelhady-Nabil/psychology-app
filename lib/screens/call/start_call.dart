@@ -40,9 +40,7 @@ class _StartCallState extends State<StartCall> {
                   ),
 
                   IconButton(onPressed: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context)=>LayoutScreen()));
+                    Navigator.pop(context);
                   }, icon: Icon(Icons.arrow_forward))
 
                 ],

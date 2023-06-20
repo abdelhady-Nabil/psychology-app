@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,9 +26,6 @@ class _SettingScreenState extends State<SettingScreen> {
   final TextEditingController  _newphoneController = TextEditingController();
   final TextEditingController  _newpasswordController = TextEditingController();
 
-
-
-
   final _formKey = GlobalKey<FormState>();
 
 
@@ -34,6 +34,8 @@ class _SettingScreenState extends State<SettingScreen> {
     return BlocConsumer<PsychologyCubit,PsychologyState>(
       listener: (context,state){},
       builder: (context,state){
+        // var profileImage = PsychologyCubit.get(context).profileImage;
+
         return Scaffold(
           appBar: AppBar(
             backgroundColor: PrimaryColor,
@@ -63,6 +65,22 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),),
                         const SizedBox(
                           height: 10,
+                        ),
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     PsychologyCubit.get(context).getImage();
+                        //   },
+                        //   child: Container(
+                        //     alignment: Alignment.center,
+                        //     child: CircleAvatar(
+                        //       radius: 64,
+                        //       backgroundImage: profileImage == null
+                        //           ? AssetImage('images/man.png') as ImageProvider<Object>
+                        //           : FileImage(profileImage),  ),
+                        //   ),
+                        // ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         TextFormField(
                           decoration: const InputDecoration(

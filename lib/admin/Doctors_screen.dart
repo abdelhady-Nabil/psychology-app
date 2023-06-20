@@ -1,13 +1,22 @@
 import 'package:animated_conditional_builder/animated_conditional_builder.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:psychology_app/admin/doctor_details_screen_admin.dart';
 
 import '../model/doctor_model.dart';
 import '../screens/layout/cubit/cubit.dart';
 import '../screens/layout/cubit/states.dart';
-class DoctorsScreen extends StatelessWidget {
+class DoctorsScreen extends StatefulWidget {
   const DoctorsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<DoctorsScreen> createState() => _DoctorsScreenState();
+}
+
+class _DoctorsScreenState extends State<DoctorsScreen> {
+
+  List<DoctorModel> doctorsList = [];
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PsychologyCubit,PsychologyState>(
@@ -67,6 +76,7 @@ class DoctorsScreen extends StatelessWidget {
 
   Widget buildDoctorItem(context,DoctorModel model)=> InkWell(
     onTap: (){
+      Navigator.push(context,MaterialPageRoute(builder: (context)=>DoctorDetailsScreenAdmin(model: model)));
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 20.0,bottom: 20),
@@ -84,4 +94,28 @@ class DoctorsScreen extends StatelessWidget {
       ),
     ),
   );
+
+  Future<void> deleteItem(DoctorModel model) async {
+    try {
+      // Delete the item from Firestore
+      await FirebaseFirestore.instance
+          .collection('doctors')
+          .doc(model.doctorId)
+          .delete();
+
+      // Remove the item from the list
+      setState(() {
+        doctorsList.remove(model);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Item deleted successfully')),
+      );
+    } catch (error) {
+      print('Error deleting item: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error deleting item')),
+      );
+    }
+  }
 }

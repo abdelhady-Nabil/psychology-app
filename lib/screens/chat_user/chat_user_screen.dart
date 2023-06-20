@@ -103,7 +103,7 @@ class _ChatUserScreenState extends State<ChatUserScreen> {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: AssetImage('images/dd.png'),
+            backgroundImage: AssetImage('images/man.png'),
           ),
           SizedBox(
             width: 20,

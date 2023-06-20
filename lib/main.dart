@@ -54,7 +54,7 @@ void main()async{
       MultiBlocProvider(
     providers: [
       BlocProvider(
-          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctorData()..getDoctors()..getBookings
+          create:(BuildContext context)=>PsychologyCubit()..getUserData()..getUsers()..getDoctorData()..getDoctors()..getBookings..getTotalPrice()
       ),
     ],
     child: MyApp(

@@ -169,7 +169,7 @@ class RegisterScreen extends StatelessWidget {
                                 return "ادخل رقم التليفون";
                               }
                               if(value.length < 11){
-                                return "ادخل رقم تليفون غلط";
+                                return "ادخلت رقم تليفون غلط";
                               }
                               return null;
                             },

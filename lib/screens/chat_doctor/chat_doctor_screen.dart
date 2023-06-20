@@ -22,6 +22,7 @@ class _ChatDoctorScreenState extends State<ChatDoctorScreen> {
    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
    List<BookingModel> bookingList = [];
+   var timeNow = DateTime.now();
 
    @override
    void initState() {
@@ -58,6 +59,13 @@ class _ChatDoctorScreenState extends State<ChatDoctorScreen> {
 
                     ],
                   ),
+                    SizedBox(
+                      height: 20,
+                    ),
+
+                  // Text(
+                  //   '${timeNow.hour}' ,style: TextStyle(fontSize: 20),),
+
                   SizedBox(
                     height: 20,
                   ),
@@ -111,6 +119,33 @@ class _ChatDoctorScreenState extends State<ChatDoctorScreen> {
   Widget buildChatItem(context,BookingModel model)=> InkWell(
     onTap: (){
       Navigator.push(context,MaterialPageRoute(builder: (context)=>ChatDetailsScreen(model: model)));
+      // if(model.time=='${timeNow.minute} : ${timeNow.hour}'){
+      //   Navigator.push(context,MaterialPageRoute(builder: (context)=>ChatDetailsScreen(model: model)));
+      // }else{
+      //   Scaffold.of(context).showBottomSheet((context){
+      //     return Container(
+      //       decoration: BoxDecoration(
+      //           color: PrimaryColor,
+      //           borderRadius: BorderRadius.circular(40)
+      //       ),
+      //       height: 150,
+      //       width: double.infinity,
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(20.0),
+      //         child: SingleChildScrollView(
+      //           child: Column(
+      //             children: [
+      //               Text('سوف يتم فتح المحادثه الساعه ${model.time}',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
+      //               TextButton(onPressed: (){
+      //                 Navigator.pop(context);
+      //               }, child: Text('اغلاق',style: TextStyle(color: Colors.white),))
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //     );
+      //   });
+      // }
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 20.0,bottom: 20),

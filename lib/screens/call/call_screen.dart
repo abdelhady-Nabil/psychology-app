@@ -25,8 +25,7 @@ class _CallScreenState extends State<CallScreen> {
 
   bool muted =false;
 
-  final String token = "007eJxTYEh5GxWz6VLPj4nctvvNuvVKfp1Lk6iLnfT2+/ysghXJDiYKDJYGJiYGiebmqcnJaSbJycaWKQbmhqmpRkbJScbJBhYWE0SrUhoCGRkWOFqwMDJAIIjPzpCSn1ySX2TIwAAA+y4g0Q==";
-
+  final String token = "007eJxTYCgtyHtlPEmD8yjzzModfYvXWnHPuly71VVo0xep2/+DPn5UYLA0MDExSDQ3T01OTjNJTja2TDEwN0xNNTJKTjJONrCwqNk5IaUhkJGB83YwIyMDBIL4LAwlqcUlDAwAj/Egpg==";
   @override
   void initState() {
     // TODO: implement initState

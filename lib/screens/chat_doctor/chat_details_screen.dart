@@ -24,7 +24,6 @@ class ChatDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder( //acsess on message befor consumer start
       builder: (BuildContext context){
-
         //PsychologyCubit psychologyCubit = PsychologyCubit();
         PsychologyCubit.get(context).getDoctors();
         PsychologyCubit.get(context).getMessages(
@@ -51,7 +50,7 @@ class ChatDetailsScreen extends StatelessWidget {
                     SizedBox(
                       width: 20,
                     ),
-                    Text('${model.doctorName}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                    Text('Dr. ${model.doctorName}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
                     //Text('${model.doctorId}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
 
                   ],
@@ -67,6 +66,7 @@ class ChatDetailsScreen extends StatelessWidget {
                 child: Column(
 
                   children: [
+                   // Text('${int.parse(model.time.toString().substring(0,1))+1}'),
                    Expanded(
                      child: ListView.separated(
                          itemBuilder: (context,index){

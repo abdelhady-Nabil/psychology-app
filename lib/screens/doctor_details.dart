@@ -49,14 +49,14 @@ class DoctorDetails extends StatelessWidget {
                             radius: 60,
                           ),
                           Text('Dr. ${model.name}',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                          Text('Psychologist',style: TextStyle(fontSize: 20,color: Colors.grey),),
+                          Text('طبيب نفسي',style: TextStyle(fontSize: 20,color: Colors.grey),),
                           SizedBox(
                             height: 20,
                           ),
 
                           Container(
-                              alignment: Alignment.topLeft,
-                              child: Text('Achievement',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
+                              alignment: Alignment.topRight,
+                              child: Text('الانجازات',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),)),
 
                           Container(
                             width: double.infinity,
@@ -73,7 +73,7 @@ class DoctorDetails extends StatelessWidget {
                                           height: 100,
                                         ),
                                         Text('120+',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                        Text('Patient'),
+                                        Text('مريض'),
 
                                       ],
 
@@ -90,7 +90,7 @@ class DoctorDetails extends StatelessWidget {
                                           height: 100,
                                         ),
                                         Text('5+',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-                                        Text('Exparience'),
+                                        Text('الخبره'),
 
                                       ],
 

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:psychology_app/screens/chat_screen.dart';
+import 'package:psychology_app/screens/how_screen.dart';
 import 'package:psychology_app/screens/layout/cubit/cubit.dart';
 import 'package:psychology_app/screens/measure/measure_screen.dart';
 import 'package:psychology_app/screens/more_screen.dart';
@@ -17,6 +18,9 @@ import '../model/doctor_model.dart';
 import '../model/question_model.dart';
 import '../widget/custom_item.dart';
 import '../widget/custom_text.dart';
+import 'call/start_call.dart';
+import 'chat_doctor/chat_doctor_screen.dart';
+import 'doctor_details.dart';
 import 'face_detection.dart';
 import 'layout/cubit/states.dart';
 import 'measure/goal_measure.dart';
@@ -46,7 +50,11 @@ class HomeScreen extends StatelessWidget {
                       children:  [
                         Row(
                           children:  [
-                            Icon(Icons.question_mark_outlined,color: Colors.deepPurpleAccent,),
+                            IconButton(onPressed: (){
+                              Navigator.push(context,MaterialPageRoute(builder: (context)=>HowScreen()));
+
+                            }, icon:Icon(Icons.question_mark_outlined,color: Colors.deepPurpleAccent,), ),
+
                             SizedBox(
                               width: 5,
                             ),
@@ -419,7 +427,10 @@ class HomeScreen extends StatelessWidget {
                             radius: 35,
                             child: IconButton(
                               icon: Icon(Icons.chat,color: PrimaryColor,),
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatDoctorScreen()));
+
+                              },
                             ),
                           ),
                           CircleAvatar(
@@ -427,23 +438,21 @@ class HomeScreen extends StatelessWidget {
                             radius: 35,
                             child: IconButton(
                               icon: Icon(Icons.video_call_outlined,color: PrimaryColor),
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>StartCall()));
+                              },
                             ),
                           ),
-                          CircleAvatar(
-                            backgroundColor: Colors.grey[100],
-                            radius: 35,
-                            child: IconButton(
-                              icon: Icon(Icons.share,color: PrimaryColor),
-                              onPressed: (){},
-                            ),
-                          ),
+
                           CircleAvatar(
                             backgroundColor: Colors.grey[100],
                             radius: 35,
                             child: IconButton(
                               icon: Icon(Icons.read_more,color: PrimaryColor),
-                              onPressed: (){},
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>DoctorDetails(model: model,)));
+
+                              },
                             ),
                           ),
                         ],

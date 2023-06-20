@@ -30,3 +30,7 @@ class GetMessageErrorState extends PsychologyState{}
 class GetBookingsLoadingState extends PsychologyState{}
 class GetBookingsSuccessState extends PsychologyState{}
 class GetBookingsErrorState extends PsychologyState{}
+
+
+class ProfileImagePickedSuccessState extends PsychologyState{}
+class ProfileImagePickedErrorState extends PsychologyState{}
